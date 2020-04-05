@@ -11,6 +11,7 @@ git clone https://github.com/your-username/rails-portfolio-project.git
 ```
 
 Install gems (see Gemfile for version of rails):
+
 ```
 bundle install
 ```
