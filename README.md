@@ -1,5 +1,7 @@
 # rails-portfolio-project
 
+A digital learning management system for creating courses and lessons.
+
 License:
 https://github.com/boom100100/rails-portfolio-project/blob/master/LICENSE
 
@@ -18,7 +20,7 @@ bundle install
 
 Set up database:
 ```
-rake db:create
+rake db:migrate
 ```
 Seed database:
 ```
