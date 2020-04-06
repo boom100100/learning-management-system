@@ -1,0 +1,12 @@
+<%= form_tag('/users', method: :post) do %>
+
+  <%= select_tag "account_type", raw("<option>Student</option><option>Teacher</option>") %>
+  <%= text_field_tag 'username' %>
+  <%= password_field_tag 'password' %>
+  <%= password_field_tag 'password_confirmation' %>
+
+  <%= submit_tag('Sign Up', formaction: 'user#create', formmethod: 'POST') %>
+
+    <%= submit_tag('Log In', formaction: 'user#login', formmethod: 'POST') %>
+
+<% end %>
