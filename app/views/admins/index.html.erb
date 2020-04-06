@@ -1,0 +1,3 @@
+<% @admins.each do |admin| %>
+  <%= link_to admin.username, admin_path(admin) %><br />
+<% end %>
