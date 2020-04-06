@@ -1,5 +1,5 @@
 class Accounts_Controller < ApplicationController
-  def signup
+  def signup # TODO: determine user type.
   end
 
   def login
