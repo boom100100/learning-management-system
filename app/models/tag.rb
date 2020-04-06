@@ -1,4 +1,4 @@
 class Tag < ApplicationRecord
-  belongs_to :lesson
-  belongs_to :course
+  has_many :lessons
+  has_many :courses, through: :lesson
 end
