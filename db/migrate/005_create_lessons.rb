@@ -9,6 +9,7 @@ class CreateLessons < ActiveRecord::Migration[5.2]
       t.string :dir_url #for shared files
 
       t.integer :course_id
+      t.integer :tag_id
     end
   end
 end
