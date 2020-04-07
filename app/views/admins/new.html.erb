@@ -1,4 +1,4 @@
-<%= form_for @admin, :url => { :action => :create } do |f| %>
+<%= form_for @admin do |f| %>
   Username: <%= f.text_field :username %><br />
   Password : <%= f.password_field :password %><br />
   Password Confirmation : <%= f.password_field :password_confirmation %><br />
