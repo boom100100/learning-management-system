@@ -1,0 +1,4 @@
+<h1>Teachers</h1>
+<% @teachers.each do |teacher| %>
+  <%= link_to teacher.username, teacher_path(teacher) %><br />
+<% end %>
