@@ -1,11 +1,10 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
   configure do
-    set :public_folder, 'public'
-    set :views, 'app/views'
+
 
     enable :sessions
-    set :session_secret, 'password_security'
+    set :session_secret, 'password_security' #todo change
   end
   def index
   end
