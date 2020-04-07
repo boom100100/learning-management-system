@@ -1,0 +1,9 @@
+<%= form_tag('/login', method: :post) do %>
+
+  <%= select_tag 'account_type', options_for_select(['student', 'teacher', 'admin'], 'student') %>
+
+  <%= render 'form' %>
+
+  <%= submit_tag('Log In') %>
+
+<% end %>
