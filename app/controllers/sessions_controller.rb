@@ -11,35 +11,32 @@ class SessionsController < ApplicationController
 
     if type == 'student'
       user = Student.find_by(username: params[:username])
-    elsif type == ''
+    elsif type == 'admin'
       user = Admin.find_by(username: params[:username])
     else
       user = Teacher.find_by(username: params[:username])
     end
 
-    if user && user.authenticate(params[:password])
-      session[:user_id] = user.id
-      is_admin = user.instance_of?(Admin)
+    user = user.try(:authenticate, params[:password])
+    #return redirect_to(controller: 'sessions', action: 'login') unless user
+    return 'user failed' unless user
 
-      if is_admin
-        session[:type] = 'admin'
-        session[:privilege] = 'admin'
-      else
-        session[:type] = params[:type]
-        session[:privilege] = type
-      end
+    session[:user_id] = user.id
+    is_admin = user.instance_of?(Admin)
 
-      redirect_to user
-
-    elsif user
-      render 'Enter the correct username or password to access this account.'
+    if is_admin
+      session[:type] = 'admin'
+      session[:privilege] = 'admin'
     else
-      render 'User not found. You must choose the correct account type to sign in.'
+      session[:type] = params[:type]
+      session[:privilege] = type
     end
+
+    redirect_to user
   end
 
-  def logout
+  def logout # TODO: done
     reset_session
-    redirect_to root
+    redirect_to root_path
   end
 end
