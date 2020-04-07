@@ -1,0 +1,16 @@
+<%= form_tag('/students', method: :post) do %>
+
+  <%= select_tag 'account_type', options_for_select(['','student', 'teacher'], 'student'), :onchange => 'onChange(this)' %>
+
+  <%= render 'form' %>
+
+  <%= password_field_tag 'password_confirmation' %>
+  <%= submit_tag('Sign Up') %>
+
+<% end %>
+
+<script>
+  function onChange(me){
+    document.querySelector('form').action = '/' + me.value + 's'
+  }
+</script>
