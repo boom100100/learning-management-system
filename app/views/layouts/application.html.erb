@@ -16,8 +16,8 @@
       <li><a href='/teachers'>Teachers</a></li>
       <li><a href='/students'>Students</a></li>
       <li><a href='/courses'>Courses</a></li>
-
-      <% if !session[:user_id] || request.path_info != '/login' %>
+      
+      <% if !session[:user_id] && request.path_info != '/login' %>
         <li><a href='/login'>Log In</a></li>
       <% end %>
       <% if session[:user_id] %>
