@@ -6,7 +6,7 @@ class TeachersController < ApplicationController
     @teacher = Teacher.new
   end
   def create
-    teacher = Teacher.create(teachers_params)
+    teacher = Teacher.create(teacher_params)
     teacher ? redirect_to(teachers_path) : redirect_to(new_teacher_path)
   end
 
