@@ -1,5 +1,5 @@
 class CoursesController < ApplicationController
-  def index # TODO: needs authorization restrictions
+  def index
     @courses = Course.all
   end
 
@@ -7,12 +7,13 @@ class CoursesController < ApplicationController
     @course = Course.new
   end
 
-  def create
+  def create # TODO: needs authorization restrictions
     course = Course.create(courses_params)
+    course.save
     redirect_to course
   end
 
-  def show # TODO: needs authorization restrictions
+  def show
     @course = Course.find_by(id: params[:id])
   end
 
@@ -20,7 +21,7 @@ class CoursesController < ApplicationController
     @course = Course.find_by(id: params[:id])
   end
 
-  def update
+  def update # TODO: needs authorization restrictions
     course = Course.find_by(id: params[:id])
     redirect_to course
   end
@@ -33,7 +34,7 @@ class CoursesController < ApplicationController
 
   private
 
-  def courses_params # TODO: needs authorization restrictions
+  def courses_params
     params.require(:course).permit(:name, :description)
   end
 end
