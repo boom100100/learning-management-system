@@ -2,11 +2,12 @@
 <html>
   <head>
     <title>RailsPortfolioProject</title>
+
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <% #webpacker removed javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <% javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
   <body>
@@ -16,7 +17,7 @@
       <li><a href='/teachers'>Teachers</a></li>
       <li><a href='/students'>Students</a></li>
       <li><a href='/courses'>Courses</a></li>
-      
+
       <% if !session[:user_id] && request.path_info != '/login' %>
         <li><a href='/login'>Log In</a></li>
       <% end %>
