@@ -17,12 +17,18 @@ class StudentsController < ApplicationController
   end
 
   def edit
+    @student = Student.find_by(id: params[:id])
   end
-  
+
   def update
+    student = Student.find_by(id: params[:id])
+    redirect_to student
   end
 
   def destroy
+    student = Student.find_by(id: params[:id])
+    student.destroy
+    redirect_to students_path
   end
 
   private
