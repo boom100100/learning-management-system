@@ -5,11 +5,12 @@ Rails.application.routes.draw do
   get '/login', to: 'sessions#login'
   post '/login', to: 'sessions#create'
 
-  get '/logout', to: 'sessions#logout'
+  get '/logout', to: 'sessions#destroy'
 
   resources :admins
   resources :students
   resources :teachers
 
   resources :courses
+  resources :lessons
 end
