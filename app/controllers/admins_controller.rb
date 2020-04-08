@@ -20,6 +20,19 @@ class AdminsController < ApplicationController
     @admin = Admin.find_by(id: params[:id])
   end
 
+  def edit
+    @admin = Admin.find_by(id: params[:id])
+  end
+
+  def update
+    #validate, update pw if present
+    #must input old pw to update pw
+
+    admin = Admin.update(admin_params)
+    admin ? redirect_to admins_path : render 'Couldn\'t create admin.'
+    end
+  end
+
   def destroy
     @admin = Admin.find_by(id: params[:id])
     @admin.destroy
