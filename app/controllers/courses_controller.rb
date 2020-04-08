@@ -8,11 +8,13 @@ class CoursesController < ApplicationController
   end
 
   def create # TODO: needs authorization restrictions
-    course = Course.create(courses_params)
+    # TODO: create failed. course.save! #ActiveRecord::RecordInvalid (Validation failed: Teacher must exist, Student must exist)
+
+    course = Course.create(course_params)
     if course
       redirect_to courses_path
     else
-      erb 'Couldn\'t create course.'
+      'Couldn\'t create course.'
     end
   end
 
@@ -37,7 +39,7 @@ class CoursesController < ApplicationController
 
   private
 
-  def courses_params
+  def course_params
     params.require(:course).permit(:name, :description)
   end
 end
