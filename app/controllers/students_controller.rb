@@ -9,7 +9,7 @@ class StudentsController < ApplicationController
 
   def create
     student = Student.create(student_params)
-    redirect_to student_path(student) if student
+    student ? redirect_to student : redirect_to new_student_path
   end
 
   def show
