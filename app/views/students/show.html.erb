@@ -1,2 +1,5 @@
 <h1>Profile</h1>
 <%= @student.username %>
+
+<%= button_to "Edit", edit_student_path(@student) %>
+<%= button_to "Delete", student_path(@student), method: :delete %>
