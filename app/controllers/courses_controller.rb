@@ -1,9 +1,9 @@
 class CoursesController < ApplicationController
-  def index
+  def index # TODO: needs authorization restrictions
     @courses = Course.all
   end
 
-  def new
+  def new # TODO: needs authorization restrictions
     @course = Course.new
   end
 
@@ -12,11 +12,11 @@ class CoursesController < ApplicationController
     redirect_to course
   end
 
-  def show
+  def show # TODO: needs authorization restrictions
     @course = Course.find_by(id: params[:id])
   end
 
-  def edit
+  def edit # TODO: needs authorization restrictions
     @course = Course.find_by(id: params[:id])
   end
 
@@ -25,7 +25,7 @@ class CoursesController < ApplicationController
     redirect_to course
   end
 
-  def destroy
+  def destroy # TODO: needs authorization restrictions
     course = Course.find_by(id: params[:id])
     course.destroy
     redirect_to courses_path
@@ -33,7 +33,7 @@ class CoursesController < ApplicationController
 
   private
 
-  def courses_params
+  def courses_params # TODO: needs authorization restrictions
     params.require(:course).permit(:name, :description)
   end
 end
