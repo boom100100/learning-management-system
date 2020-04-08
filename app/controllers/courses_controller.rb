@@ -8,7 +8,7 @@ class CoursesController < ApplicationController
   end
 
   def create # TODO: needs authorization restrictions
-    # TODO: create failed. course.save! #ActiveRecord::RecordInvalid (Validation failed: Teacher must exist, Student must exist)
+    # TODO: create failed. course.save! #error: ActiveRecord::RecordInvalid (Validation failed: Teacher must exist, Student must exist)
 
     course = Course.create(course_params)
     if course
