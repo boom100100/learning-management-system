@@ -9,7 +9,7 @@ class StudentsController < ApplicationController
 
   def create
     student = Student.create(student_params)
-    student ? redirect_to student : redirect_to new_student_path
+    student ? redirect_to(students_path) : redirect_to(new_student_path)
   end
 
   def show
@@ -22,6 +22,7 @@ class StudentsController < ApplicationController
 
   def update
     student = Student.find_by(id: params[:id])
+    student.update(student_params)
     redirect_to student
   end
 
