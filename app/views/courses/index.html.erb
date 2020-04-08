@@ -1,5 +1,6 @@
 <h1>Courses</h1>
+<%= link_to 'Create New Course', new_course_path %><br />
 <% @courses.each do |course| %>
-  <%= link_to course.name, course_path(course) %><br />
+  <h2><%= link_to course.name, course %></h2><br />
   <%= course.description %><br /><br />
 <% end %>
