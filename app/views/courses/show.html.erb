@@ -1,0 +1,4 @@
+<h1><%= @course.name %></h1>
+<p><%= @course.description %></p>
+<%= link_to "Edit", edit_course(@course) %>
+<%= link_to "Delete", :controller => "courses", :action => "delete", :id => @course %>
