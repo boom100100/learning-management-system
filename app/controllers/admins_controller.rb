@@ -32,8 +32,8 @@ class AdminsController < ApplicationController
   def update
     #validate, update pw if present
     #must input old pw to update pw
-
-    admin = Admin.update(admin_params)
+    admin = Admin.find_by(id: params[:id])
+    admin.update(admin_params)
     admin ? redirect_to(admins_path) : render('Couldn\'t create admin.')
 
   end
