@@ -21,6 +21,9 @@ class AdminsController < ApplicationController
   end
 
   def destroy
+    @admin = Admin.find_by(id: params[:id])
+    @admin.destroy
+    redirect_to admins_path
   end
 
   def admin_params
