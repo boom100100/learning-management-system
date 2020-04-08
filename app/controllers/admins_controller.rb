@@ -12,7 +12,7 @@ class AdminsController < ApplicationController
     if admin
       redirect_to admins_path
     else
-      erb 'Couldn\'t create admin.'
+      'Couldn\'t create admin.'
     end
   end
 
