@@ -9,8 +9,11 @@ class CoursesController < ApplicationController
 
   def create # TODO: needs authorization restrictions
     course = Course.create(courses_params)
-    course.save
-    redirect_to course
+    if course
+      redirect_to courses_path
+    else
+      erb 'Couldn\'t create course.'
+    end
   end
 
   def show
