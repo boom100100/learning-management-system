@@ -35,8 +35,16 @@ class StudentsController < ApplicationController
   end
 
   def destroy
-    student = Student.find_by(id: params[:id])
+    id = params[:id]
+    student = Student.find_by(id: id)
+
     student.destroy
+    
+    if session[:type] == 'student' && session[:user_id] == id
+      reset_session
+      return redirect_to root_path
+    end
+
     redirect_to students_path
   end
 
