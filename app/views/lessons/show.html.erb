@@ -19,7 +19,10 @@ From course: <%= link_to @lesson.course.name, @lesson.course %><br />
 <p><%= @lesson.content %></p>
 
 <h2>Lesson Files</h2>
-<p><%= @lesson.dir_url %></p>
+<%= link_to 'Download', controller: :lessons, action: :download %>
+<% #= link_to 'Download', '../docs/les.zip', download: '' %>
+<% # TODO:how to download? = link_to 'download', asset_path('/docs/' + @lesson.dir_url + '.txt') %>
+<p><%=  %></p>
 
 
 
