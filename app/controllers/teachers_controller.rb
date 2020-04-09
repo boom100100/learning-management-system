@@ -32,10 +32,18 @@ class TeachersController < ApplicationController
     redirect_to teacher
   end
   def destroy
-    teacher = Teacher.find_by(id: params[:id])
+    id = params[:id]
+    teacher = Teacher.find_by(id: id)
+
     teacher.destroy
+
+    if session[:type] == 'teacher' && session[:user_id] == id
+      reset_session
+      return redirect_to root_path
+    end
     redirect_to teachers_path
   end
+  
   private
   def teacher_params
     params.require(:teacher).permit(:username, :password, :password_confirmation)

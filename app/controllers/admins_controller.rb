@@ -39,8 +39,15 @@ class AdminsController < ApplicationController
   end
 
   def destroy
-    @admin = Admin.find_by(id: params[:id])
+    id = params[:id]
+    @admin = Admin.find_by(id: id)
     @admin.destroy
+
+    if session[:type] == 'admin' && session[:user_id] == id
+      reset_session
+      return redirect_to root_path
+    end
+
     redirect_to admins_path
   end
 
