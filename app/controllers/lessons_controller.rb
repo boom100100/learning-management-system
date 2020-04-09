@@ -8,12 +8,8 @@ class LessonsController < ApplicationController
   end
 
   def download_dir
-    Dir["*"].each do |file|
-      if File.directory?(file)
-        `zip -r "#{file}.zip" "#{file}"`
-      end
-    end
+    #user must upload .zip file.
     send_file(Rails.root.join('public', 'docs/les.zip'), :type=>"application/zip" , :x_sendfile=>true) # TODO: edit path
-    redirect_back
+
   end
 end
