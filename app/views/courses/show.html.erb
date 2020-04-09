@@ -4,6 +4,15 @@
 <%= link_to "Edit", edit_course_path(@course) %>
 <%= button_to "Delete", course_path(@course), method: :delete %>
 
+
+<h2>Lessons</h2>
+<%= link_to 'Create Lesson', new_lesson_path %><br />
 <% @course.lessons.each do |lesson| %>
   <%= link_to lesson.name, lesson %><br />
+<% end %>
+
+
+<h2>Students</h2>
+<% @course.students.each do |student| %>
+  <%= link_to student.username, student %><br />
 <% end %>
