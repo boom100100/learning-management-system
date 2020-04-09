@@ -1,4 +1,7 @@
 <%# needs teacher field. %>
 Name: <%= f.text_field :name %><br />
+
+Teacher: <%#= f.select('course', 'teacher', Teacher.all.collect {|t| [ t.username, t.id ] }, { include_blank: true }), { include_blank: true }) %><br />
+<%= f.select(:teacher, ['', *@teachers]) %><br />
 Description : <%= f.text_area :description %><br />
 <%= f.submit %>
