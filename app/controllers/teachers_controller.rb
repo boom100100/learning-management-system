@@ -7,7 +7,15 @@ class TeachersController < ApplicationController
   end
   def create
     teacher = Teacher.create(teacher_params)
-    teacher ? redirect_to(teachers_path) : redirect_to(new_teacher_path)
+    if teacher
+      session[:user_id] = teacher.id
+      session[:type] = 'teacher'
+      session[:privilege] = 'teacher'
+
+      redirect_to(teachers_path)
+    else
+      redirect_to(new_teacher_path)
+    end
   end
 
   def show

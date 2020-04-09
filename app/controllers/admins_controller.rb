@@ -10,10 +10,10 @@ class AdminsController < ApplicationController
   def create
     admin = Admin.create(admin_params)
     if admin
-      #signing in as new user likely isn't necessary in this context for any type of user.
-      #session[:user_id] = admin.id
-      #session[:type] = 'admin'
-      #session[:privilege] = 'admin'
+      # TODO: signing in as new user likely isn't necessary in this context for any type of user.
+      session[:user_id] = admin.id
+      session[:type] = 'admin'
+      session[:privilege] = 'admin'
 
       redirect_to admins_path
     else
