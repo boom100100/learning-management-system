@@ -3,5 +3,7 @@ class Course < ApplicationRecord
   has_many :tags, through: :lessons
 
   belongs_to :teacher
+
+  has_many :course_students
   has_many :students, through: :course_students
 end
