@@ -3,3 +3,8 @@
 
 <%= link_to "Edit", edit_student_path(@student) %>
 <%= button_to "Delete", student_path(@student), method: :delete %>
+
+<h1>Courses</h1>
+<% @student.courses.each do |course| %>
+  <%= link_to course.name, course %><br />
+<% end %>
