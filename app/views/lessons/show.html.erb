@@ -1,7 +1,28 @@
 <h1><%= @lesson.name %></h1>
 
+
+From course: <%= link_to @lesson.course.name, @lesson.course %><br />
+
+<video width="400" controls>
+  <source src="<%= @lesson.video_url %>" type="video/mp4">
+    <source src="<%= @lesson.video_url %>" type="video/ogg">
+    Your browser does not support HTML5 video.
+  </video>
+
+<h2>Description</h2>
 <p><%= @lesson.description %></p>
-From course: <%= link_to @lesson.course.name, @lesson.course %>
+
+<h2>Video Transcript</h2>
+<p><%= @lesson.transcript %></p>
+
+<h2>Lesson Content</h2>
+<p><%= @lesson.content %></p>
+
+<h2>Lesson Files</h2>
+<p><%= @lesson.dir_url %></p>
+
+
+
 <h2>Other lessons in this course:</h2>
 <% @lesson.course.lessons.each do |lesson| %><br />
   <%= link_to lesson.name, lesson %><br />
