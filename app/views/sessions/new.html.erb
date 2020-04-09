@@ -1,6 +1,6 @@
 <%= form_tag('/students', method: :post) do %>
 
-  <%= select_tag 'account_type', options_for_select(['','student', 'teacher'], 'student'), :onchange => 'onChange(this)' %>
+  <%= select_tag 'account_type', options_for_select(['','student', 'teacher'], ''), :onchange => 'onChange(this)' %>
 
   <%= render 'form' %>
 
@@ -10,7 +10,28 @@
 <% end %>
 
 <script>
+  //changes fields so that sign up posts with model
+  //duplicates form_for format
+  //changes authenticity token so protect_from_forgery/csrf protection can stay on this page
+  let hidden_field = document.getElementsByName('authenticity_token')[0];
+  const hidden = hidden_field.name;
+
+  let uname_field = document.getElementById('username');
+  const uname = uname_field.name;
+
+  let pw_field = document.getElementById('password');
+  const pw = pw_field.name;
+
+  let pw_conf_field = document.getElementById('password_confirmation');
+  const pw_conf = pw_conf_field.name;
+
   function onChange(me){
-    document.querySelector('form').action = '/' + me.value + 's'
+    document.querySelector('form').action = '/' + me.value + 's';
+
+    hidden_field.setAttribute("value", '<%= form_authenticity_token %>');
+    uname_field.setAttribute("name", `${me.value}[${uname}]`);
+    pw_field.setAttribute("name", `${me.value}[${pw}]`);
+    pw_conf_field.setAttribute("name", `${me.value}[${pw_conf}]`);
+
   }
 </script>
