@@ -5,6 +5,8 @@ class CreateCourses < ActiveRecord::Migration[5.2]
       t.string :description
 
       t.belongs_to :teacher
+
+      t.timestamps
     end
   end
 end

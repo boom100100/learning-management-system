@@ -10,6 +10,8 @@ class CreateLessons < ActiveRecord::Migration[5.2]
 
       t.belongs_to :course
       t.belongs_to :tag
+
+      t.timestamps
     end
   end
 end
