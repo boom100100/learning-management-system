@@ -3,3 +3,7 @@
 <p><%= @course.description %></p>
 <%= link_to "Edit", edit_course_path(@course) %>
 <%= button_to "Delete", course_path(@course), method: :delete %>
+
+<% @course.lessons.each do |lesson| %>
+  <%= link_to lesson.name, lesson %><br />
+<% end %>
