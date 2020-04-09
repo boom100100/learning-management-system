@@ -40,6 +40,24 @@ class StudentsController < ApplicationController
     redirect_to students_path
   end
 
+  def add_course # TODO: add is_student validation
+    #adds course to user's courses
+    student = Student.find_by(id: session[:user_id])
+    course = Course.find_by(id: params[:course_id])
+    student.courses << course
+    student.save
+    redirect_to course
+  end
+
+  def remove_course
+    #removes course from user's courses
+    student = Student.find_by(id: session[:user_id])
+    course = Course.find_by(id: params[:course_id])
+    student.courses.delete(course)
+    student.save
+    redirect_to course
+  end
+
   private
   def student_params
     params.require(:student).permit(:username, :password, :password_confirmation)
