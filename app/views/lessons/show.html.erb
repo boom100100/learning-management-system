@@ -1,0 +1,8 @@
+<h1><%= @lesson.name %></h1>
+
+<p><%= @lesson.description %></p>
+From course: <%= link_to @lesson.course.name, @lesson.course %>
+<h2>Other lessons in this course:</h2>
+<% @lesson.course.lessons.each do |lesson| %><br />
+  <%= link_to lesson.name, lesson %><br />
+<% end %>
