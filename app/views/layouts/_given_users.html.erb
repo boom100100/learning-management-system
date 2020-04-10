@@ -1,0 +1,8 @@
+<h1><%= type %>s</h1>
+
+<%= link_to "Create New #{type}", new_path %><br />
+
+<% #renders multiple users %>
+<% users.each do |user| %>
+  <%= link_to user.username, user %><br />
+<% end %>
