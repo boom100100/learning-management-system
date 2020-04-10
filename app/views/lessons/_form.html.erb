@@ -1,0 +1,13 @@
+Name: <%= f.text_field :name %><br />
+Course: <%= f.select :course, @courses, include_blank: true %>
+
+Description : <%= f.text_area :description %><br />
+Tags: <%= collection_check_boxes(:lesson, :tags, @tags, :id, :name) %><br />
+
+Content : <%= f.text_area :content %><br />
+Transcript : <%= f.text_area :transcript %><br />
+
+Video Upload: <%= f.text_field :video_url %><br />
+Files Upload: <%= f.text_field :dir_url %><br />
+
+<%= f.submit %>
