@@ -10,11 +10,7 @@ class CoursesController < ApplicationController
   end
 
   def create # TODO: needs authorization restrictions
-    # TODO: create failed. course.save! #error: ActiveRecord::RecordInvalid (Validation failed: Teacher must exist, Student must exist)
-
     course = Course.create(course_params)
-    course.teacher = Teacher.find_by(id: params[:course][:teacher])
-    course.save
     if course
       redirect_to courses_path
     else
@@ -34,13 +30,12 @@ class CoursesController < ApplicationController
   def update # TODO: needs authorization restrictions
     course = Course.find_by(id: params[:id])
     course.update(course_params)
-    course.teacher = Teacher.find_by(id: params[:course][:teacher_id])
-    course.save
     redirect_to course
   end
 
   def destroy # TODO: needs authorization restrictions
     course = Course.find_by(id: params[:id])
+    course.lessons.destroy_all
     course.destroy
     redirect_to courses_path
   end
@@ -48,6 +43,6 @@ class CoursesController < ApplicationController
   private
 
   def course_params
-    params.require(:course).permit(:name, :description)
+    params.require(:course).permit(:name, :description, :teacher_id)
   end
 end
