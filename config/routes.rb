@@ -21,4 +21,6 @@ Rails.application.routes.draw do
 
   resources :lessons
   get '/download_files', to: 'lessons#download_dir'
+
+  resources :tags
 end
