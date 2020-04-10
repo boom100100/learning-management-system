@@ -26,6 +26,11 @@
         <li><a href='/logout'>Log Out</a></li>
       <% end %>
     </ul>
+
+    <% if flash[:notice] %>
+      <div class="notice"><%= flash[:notice] %></div>
+    <% end %>
+    
     <%= yield %>
   </body>
 </html>
