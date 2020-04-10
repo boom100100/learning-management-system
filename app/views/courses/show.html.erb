@@ -4,6 +4,11 @@
 <%= link_to "Edit", edit_course_path(@course) %>
 <%= button_to "Delete", course_path(@course), method: :delete %>
 
+<% if session[:type] == 'student' && @course.students.find_by(id: session[:user_id]).nil?#offer_course? %>
+  <%= link_to "Add to My Courses", student_add_course_path({:student_id => session[:user_id], :course_id => @course.id}) %><br />
+<% elsif session[:type] == 'student' %>
+  <%= link_to "Remove from My Courses", student_remove_course_path({:student_id => session[:user_id], :course_id => @course.id}) %><br />
+<% end %>
 
 <h2>Lessons</h2>
 <%= link_to 'Create Lesson', new_lesson_path %><br />
