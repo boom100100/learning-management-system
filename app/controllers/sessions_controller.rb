@@ -28,7 +28,7 @@ class SessionsController < ApplicationController
       session[:type] = 'admin'
       session[:privilege] = 'admin'
     else
-      session[:type] = params[:type]
+      session[:type] = type
       session[:privilege] = type
     end
 
