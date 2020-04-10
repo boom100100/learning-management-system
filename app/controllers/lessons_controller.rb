@@ -5,21 +5,20 @@ class LessonsController < ApplicationController
 
   def new
     @lesson = Lesson.new
-    @courses = Course.all.collect{|element| [element.name, element.id]}
-    @tags = Tag.all.collect{|element| [element.name, element.id]}
+    @courses = Course.all.collect { |p| [ p.name, p.id ] }
+    @tags = Tag.all
 
   end
 
   def create
+    #convert param to course object
     params[:lesson][:course] = Course.find_by(id: params[:lesson][:course].to_i)
     lesson = Lesson.new(lesson_params)
     #lesson.course = Course.find_by(id: params[:lesson][:course].to_i)
-    lesson.tag = params[:lesson][:tag].each {|id| Tag.find_by(id: id) if !id.nil? }
+    lesson.course = params[:lesson][:course]
+    lesson.tags = Tag.where(id: params[:lesson][:tags])
 
-
-
-
-    if lesson.save!
+    if lesson.save
       redirect_to lessons_path
     else
       'Couldn\'t create lesson.'
@@ -45,6 +44,6 @@ class LessonsController < ApplicationController
   private
 
   def lesson_params
-    params.require(:lesson).permit(:name, :description, :tag, :content, :transcript, :video_url, :dir_url, :course)
+    params.require(:lesson).permit(:name, :description, :tags, :content, :transcript, :video_url, :dir_url, :course)
   end
 end
