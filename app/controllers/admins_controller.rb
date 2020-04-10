@@ -1,4 +1,6 @@
 class AdminsController < ApplicationController
+  before_action :authorize_admin
+
   def index
     @admins = Admin.all
   end
@@ -49,6 +51,14 @@ class AdminsController < ApplicationController
     end
 
     redirect_to admins_path
+  end
+
+  private
+  def authorize_admin
+    if session[:user_id].nil? || session[:privilege] != 'admin'
+      flash[:notice] = 'Only admins can view /admins.'
+      redirect_to root_path
+    end
   end
 
   def admin_params
