@@ -8,9 +8,17 @@ Rails.application.routes.draw do
   get '/logout', to: 'sessions#destroy'
 
   resources :admins
-  resources :students
+
+  resources :students do
+    get '/add_course', to: 'students#add_course'
+    get '/remove_course', to: 'students#remove_course'
+  end
+
   resources :teachers
 
+
   resources :courses
+
   resources :lessons
+  get '/download_files', to: 'lessons#download_dir'
 end
