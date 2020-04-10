@@ -57,6 +57,10 @@ class AdminsController < ApplicationController
   def authorize_admin
     if session[:user_id].nil? || session[:privilege] != 'admin'
       flash[:notice] = 'Only admins can view /admins.'
+
+      if session[:type]
+        return redirect_back(fallback_location:"/#{session[:type]}s")
+      end
       redirect_back(fallback_location:"/")
     end
   end
