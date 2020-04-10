@@ -1,0 +1,5 @@
+<% #renders links for multiple courses %>
+<% #use locals array and method %>
+<% array.each do |element| %>
+  <%= link_to element.send(method), element %><br />
+<% end %>
