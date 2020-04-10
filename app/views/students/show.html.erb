@@ -1,8 +1,7 @@
 <h1>Profile</h1>
-<%= @student.username %><br />
 
-<%= link_to "Edit", edit_student_path(@student) %>
-<%= button_to "Delete", student_path(@student), method: :delete %>
+<%= render partial: 'layouts/user', locals: {user: @student } %>
+<%= render partial: 'layouts/user_update_delete', locals: {edit_path: edit_student_path(@student), delete_path: student_path(@student)} %>
 
 <h1>Courses</h1>
 <% @student.courses.each do |course| %>

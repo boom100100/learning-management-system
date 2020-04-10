@@ -1,6 +1,3 @@
 <h1>Profile</h1>
-<%= @admin.username %><br />
-
-<%= link_to "Edit", edit_admin_path(@admin) %>
-<%= button_to "Delete", admin_path(@admin), method: :delete %>
-<%## TODO: get link_to to delete. ###= link_to "Delete", admin_path(@admin), method: :delete, data: { confirm: 'Are you certain you want to delete this?' } %>
+<%= render partial: 'layouts/user', locals: {user: @admin } %>
+<%= render partial: 'layouts/user_update_delete', locals: {edit_path: edit_admin_path(@admin), delete_path: admin_path(@admin)} %>

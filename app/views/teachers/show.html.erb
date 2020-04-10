@@ -1,11 +1,7 @@
 <h1>Profile</h1>
-<%= @teacher.username %><br />
-
-<%= link_to "Edit", edit_teacher_path(@teacher) %>
-<%= button_to "Delete", teacher_path(@teacher), method: :delete %>
+<%= render partial: 'layouts/user', locals: {user: @teacher } %>
+<%= render partial: 'layouts/user_update_delete', locals: {edit_path: edit_teacher_path(@teacher), delete_path: teacher_path(@teacher)} %>
 
 <h1>Courses</h1>
 <%= link_to "New Course", new_course_path %><br />
-<% @teacher.courses.each do |course| %>
-  <%= link_to course.name, course_path(course) %><br />
-<% end %>
+<%= render partial: 'courses/course', collection: @teacher.courses %>
