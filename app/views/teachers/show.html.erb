@@ -1,7 +1,7 @@
 <h1>Profile</h1>
-<%= render partial: 'layouts/user', locals: {user: @teacher } %>
-<%= render partial: 'layouts/user_update_delete', locals: {edit_path: edit_teacher_path(@teacher), delete_path: teacher_path(@teacher)} %>
+<%= render partial: 'shared/user', locals: {user: @teacher } %>
+<%= render partial: 'shared/update_delete', locals: {edit_path: edit_teacher_path(@teacher), delete_path: teacher_path(@teacher)} %>
 
 <h1>Courses</h1>
 <%= link_to "New Course", new_course_path %><br />
-<%= render partial: 'courses/course', collection: @teacher.courses %>
+<%= render partial: 'shared/given_courses', locals:{courses: @teacher.courses} %><br />

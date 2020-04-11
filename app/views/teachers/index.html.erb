@@ -1,5 +1,3 @@
 <h1>Teachers</h1>
-<%= link_to 'Create New Teacher', new_teacher_path %><br />
-<% @teachers.each do |teacher| %>
-  <%= link_to teacher.username, teacher_path(teacher) %><br />
-<% end %>
+<%= render partial: 'shared/create_path', locals:{type: 'Teacher', new_path: new_teacher_path} %><br />
+<%= render partial: 'shared/array_links', locals:{array: @teachers, method: 'username'} %>
