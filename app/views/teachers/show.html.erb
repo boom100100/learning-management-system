@@ -4,4 +4,4 @@
 
 <h1>Courses</h1>
 <%= link_to "New Course", new_course_path %><br />
-<%= render partial: 'shared/given_courses', locals:{courses: @teacher.courses} %><br />
+<%= render partial: 'shared/array_links', locals:{array: @teacher.courses, method: 'name'} %><br />
