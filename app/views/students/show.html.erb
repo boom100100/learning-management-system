@@ -1,9 +1,7 @@
 <h1>Profile</h1>
 
-<%= render partial: 'layouts/user', locals: {user: @student } %>
-<%= render partial: 'layouts/user_update_delete', locals: {edit_path: edit_student_path(@student), delete_path: student_path(@student)} %>
+<%= render partial: 'shared/user', locals: {user: @student } %>
+<%= render partial: 'shared/update_delete', locals: {edit_path: edit_student_path(@student), delete_path: student_path(@student)} %>
 
 <h1>Courses</h1>
-<% @student.courses.each do |course| %>
-  <%= link_to course.name, course %><br />
-<% end %>
+<%= render partial: 'shared/array_links', locals:{array: @student.courses, method: 'name'} %>
