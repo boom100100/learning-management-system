@@ -11,14 +11,10 @@ class LessonsController < ApplicationController
   end
 
   def create
-    #convert param to course object
-    params[:lesson][:course] = Course.find_by(id: params[:lesson][:course].to_i)
     lesson = Lesson.new(lesson_params)
-    #lesson.course = Course.find_by(id: params[:lesson][:course].to_i)
-    lesson.course = params[:lesson][:course]
     lesson.tags = Tag.where(id: params[:lesson][:tags])
 
-    if lesson.save
+    if lesson.save!
       redirect_to lessons_path
     else
       'Couldn\'t create lesson.'
@@ -26,7 +22,7 @@ class LessonsController < ApplicationController
   end
 
   def show
-    @lesson = Lesson.find_by(params[:id])
+    @lesson = Lesson.find_by(id: params[:id])
   end
 
 
@@ -44,6 +40,6 @@ class LessonsController < ApplicationController
   private
 
   def lesson_params
-    params.require(:lesson).permit(:name, :description, :tags, :content, :transcript, :video_url, :dir_url, :course)
+    params.require(:lesson).permit(:name, :description, :tags, :content, :transcript, :video_url, :dir_url, :course_id)
   end
 end

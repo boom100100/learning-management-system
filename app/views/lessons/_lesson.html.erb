@@ -1,0 +1,28 @@
+<h1><%= lesson.name %></h1>
+
+<%= render partial: 'shared/array_links', locals: {array: lesson.tags, method: 'name' } %>
+
+From course: <%= lesson.course ? link_to(lesson.course.name, lesson.course) : 'Unassigned.' %><br />
+
+<%= render partial: 'shared/update_delete', locals: {edit_path: edit_lesson_path, delete_path: lesson } %>
+
+<video width="400" controls>
+  <source src="<%= lesson.video_url %>" type="video/mp4">
+    <source src="<%= lesson.video_url %>" type="video/ogg">
+    Your browser does not support HTML5 video.
+  </video>
+
+<h2>Description</h2>
+<p><%= lesson.description %></p>
+
+<h2>Video Transcript</h2>
+<p><%= lesson.transcript %></p>
+
+<h2>Lesson Content</h2>
+<p><%= lesson.content %></p>
+
+<h2>Lesson Files</h2>
+<%= link_to "Download", {:controller => "lessons", :action => "download_dir", :name => lesson.name } %>
+
+<h2>Other lessons in this course:</h2>
+<%= lesson.course ? render(partial: 'shared/array_links', locals: {array: lesson.course.lessons, method: 'name' }) : 'There are no other lessons.' %>
