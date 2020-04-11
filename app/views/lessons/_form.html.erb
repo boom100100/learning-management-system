@@ -1,13 +1,30 @@
-Name: <%= f.text_field :name %><br />
-Course: <%= f.select :course, @courses, include_blank: true %>
+<%= form_for @lesson do |f| %>
+  Name: <%= f.text_field :name %><br />
 
-Description : <%= f.text_area :description %><br />
-Tags: <%= collection_check_boxes(:lesson, :tags, @tags, :id, :name) %><br />
+  <% if session[:privilege] == 'admin' %>
+    Course: <%= f.select :course_id, @courses, include_blank: true, :value => @lesson.course_id %>
+  <% elsif params[:course_id] %>
+    Course: <%= f.hidden_field :course_id, :value => params[:course_id] %>
+  <% elsif session[:type] == 'teacher' %>
+    Course: <%= f.select :course_id, @courses, include_blank: true, :value => params[:course_id] %>
+  <% else %>
+    Course: <%= f.select :course_id, @courses, include_blank: true, :value => @lesson.course_id %>
+  <% end %><br />
 
-Content : <%= f.text_area :content %><br />
-Transcript : <%= f.text_area :transcript %><br />
+  <% # let teacher change course to their own courses %>
+  <% # hide if accessed from teacher/show/course#new workflow %>
+  <% # choose value for editing %>
 
-Video Upload: <%= f.text_field :video_url %><br />
-Files Upload: <%= f.text_field :dir_url %><br />
 
-<%= f.submit %>
+  Description: <%= f.text_area :description %><br />
+
+  Tags: <%= f.collection_check_boxes(:tag_ids, @tags, :id, :name) %><br />
+
+  Content: <%= f.text_area :content %><br />
+  Transcript: <%= f.text_area :transcript %><br />
+
+  Video Upload: <%= f.text_field :video_url %><br />
+  Files Upload: <%= f.text_field :dir_url %><br />
+
+  <%= f.submit %>
+<% end %>
