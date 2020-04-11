@@ -7,12 +7,11 @@ class LessonsController < ApplicationController
     @lesson = Lesson.new
     @courses = Course.all.collect { |p| [ p.name, p.id ] }
     @tags = Tag.all
-
   end
 
   def create
     lesson = Lesson.new(lesson_params)
-    lesson.tags = Tag.where(id: params[:lesson][:tags])
+    #lesson.tags = Tag.where(id: params[:lesson][:tag_ids])
 
     if lesson.save!
       redirect_to lessons_path
@@ -23,6 +22,28 @@ class LessonsController < ApplicationController
 
   def show
     @lesson = Lesson.find_by(id: params[:id])
+  end
+
+  def edit
+    @lesson = Lesson.find_by(id: params[:id])
+    @courses = Course.all.collect { |p| [ p.name, p.id ] }
+    @tags = Tag.all
+  end
+
+  def update
+
+    lesson = Lesson.find_by(id: params[:id])
+    lesson.update(lesson_params)
+    lesson.tags = Tag.where(id: params[:lesson][:tag_ids])
+
+    lesson.save
+    redirect_to lesson
+  end
+
+  def destroy
+    lesson = Lesson.find_by(id: params[:id])
+    lesson.destroy
+    redirect_to lessons_path
   end
 
 
@@ -40,6 +61,6 @@ class LessonsController < ApplicationController
   private
 
   def lesson_params
-    params.require(:lesson).permit(:name, :description, :tags, :content, :transcript, :video_url, :dir_url, :course_id)
+    params.require(:lesson).permit(:name, :description, :tag_ids, :content, :transcript, :video_url, :dir_url, :course_id)
   end
 end
