@@ -1,5 +1,7 @@
-Name: <%= f.text_field :name %><br />
+<%= form_for @course do |f| %>
+  Name: <%= f.text_field :name %><br />
 
-Teacher: <%= f.select(:teacher, ['', *@teachers]) %><br />
-Description : <%= f.text_area :description %><br />
-<%= f.submit %>
+  Teacher: <%= f.select(:teacher_id, ['', *@teachers]) %><br />
+  Description : <%= f.text_area :description %><br />
+  <%= f.submit %>
+<% end %>
