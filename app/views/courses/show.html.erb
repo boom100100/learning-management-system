@@ -1,8 +1,6 @@
-<h1><%= @course.name %></h1>
-<h2>Taught by: <%= link_to @course.teacher.username, @course.teacher %></h2>
-<p><%= @course.description %></p>
-<%= link_to "Edit", edit_course_path(@course) %>
-<%= button_to "Delete", course_path(@course), method: :delete %>
+<%= render @course %>
+
+<%= render partial: 'shared/update_delete', locals:{edit_path: edit_course_path(@course), delete_path: course_path(@course) } %>
 
 <% if session[:type] == 'student' && @course.students.find_by(id: session[:user_id]).nil?#offer_course? %>
   <%= link_to "Add to My Courses", student_add_course_path({:student_id => session[:user_id], :course_id => @course.id}) %><br />
@@ -11,13 +9,9 @@
 <% end %>
 
 <h2>Lessons</h2>
-<%= link_to 'Create Lesson', new_lesson_path %><br />
-<% @course.lessons.each do |lesson| %>
-  <%= link_to lesson.name, lesson %><br />
-<% end %>
+<%= render partial: 'shared/create_path', locals:{type: 'Lesson', new_path: new_lesson_path+"?course_id=#{@course.id}" } %><br />
+<%= render partial: 'shared/array_links', locals:{array: @course.lessons, method: 'name'} %>
 
 
 <h2>Students</h2>
-<% @course.students.each do |student| %>
-  <%= link_to student.username, student %><br />
-<% end %>
+<%= render partial: 'shared/array_links', locals:{array: @course.students, method: 'username'} %><br /><br />
