@@ -22,6 +22,7 @@ class StudentsController < ApplicationController
 
   def show
     @student = Student.find_by(id: params[:id])
+    @courses = @student.courses.collect{|c| [c, c.name]}
   end
 
   def edit
@@ -39,7 +40,7 @@ class StudentsController < ApplicationController
     student = Student.find_by(id: id)
 
     student.destroy
-    
+
     if session[:type] == 'student' && session[:user_id] == id
       reset_session
       return redirect_to root_path
