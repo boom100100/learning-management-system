@@ -1,1 +1,3 @@
-<%= link_to course.name, course %><br />
+<h1><%= course.name %></h1>
+<h2>Taught by: <%= course.teacher.nil? ? 'Unassigned' : link_to(course.teacher.username, course.teacher) %></h2>
+<p><%= course.description %></p>
