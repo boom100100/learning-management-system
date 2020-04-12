@@ -28,6 +28,7 @@ class TagsController < ApplicationController
   def update
     tag = Tag.find_by(id: params[:id])
     tag.update(tag_params)
+    tag.save
     redirect_to tag
   end
 
