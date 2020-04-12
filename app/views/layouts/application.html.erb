@@ -27,10 +27,10 @@
       <% end %>
     </ul>
 
-    <% if flash[:notice] %>
-      <div class="notice"><%= flash[:notice] %></div>
+    <% if flash[:error] %>
+      <div class="error"><%= flash[:error].html_safe %></div>
     <% end %>
-    
+
     <%= yield %>
   </body>
 </html>
