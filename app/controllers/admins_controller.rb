@@ -11,7 +11,7 @@ class AdminsController < ApplicationController
 
   def create
     admin = Admin.create(admin_params)
-    if admin
+    if admin.id
       # TODO: signing in as new user likely isn't necessary in this context for any type of user.
       session[:user_id] = admin.id
       session[:type] = 'admin'
@@ -19,7 +19,9 @@ class AdminsController < ApplicationController
 
       redirect_to admins_path
     else
-      render 'Couldn\'t create admin.'
+      show_error(admin)
+      flash[:error] = "Couldn\'t create admin.<br />" + flash[:error]
+      redirect_to admins_path
     end
   end
 
@@ -55,13 +57,18 @@ class AdminsController < ApplicationController
 
   private
   def authorize_admin
-    if session[:user_id].nil? || session[:privilege] != 'admin'
-      flash[:notice] = 'Only admins can view /admins.'
+    unless session[:privilege] == 'admin'
+      flash[:error] = 'Only admins can view /admins.'
+      redirect_to "/" # halts request cycle
+    end
+  end
 
-      if session[:type]
-        return redirect_back(fallback_location:"/#{session[:type]}s")
+  def show_error(object)
+    if object.errors.any?
+      flash[:error] = ''
+      object.errors.full_messages.each do |message|
+        flash[:error] = flash[:error] + "#{message}<br />"
       end
-      redirect_back(fallback_location:"/")
     end
   end
 
