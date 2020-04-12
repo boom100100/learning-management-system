@@ -1,0 +1,7 @@
+<h1><%= @tag.name %></h1>
+
+<%= render partial: 'shared/update_delete', locals:{edit_path: edit_tag_path(@tag), delete_path: tag_path(@tag) } %>
+
+<h2>Courses</h2>
+
+<%= (render partial: @courses) || 'This tag doesn\'t have any related courses.' %>
