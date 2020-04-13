@@ -1,4 +1,6 @@
 class TeachersController < ApplicationController
+  def omniauth_callbacks
+  end
   def index
     @teachers = Teacher.all
   end
@@ -10,9 +12,9 @@ class TeachersController < ApplicationController
   def create
     teacher = Teacher.create(teacher_params)
     if teacher
-      session[:user_id] = teacher.id
-      session[:type] = 'teacher'
-      session[:privilege] = 'teacher'
+      # session[:user_id] = teacher.id
+      # session[:type] = 'teacher'
+      # session[:privilege] = 'teacher'
 
       redirect_to(teachers_path)
     else
@@ -43,9 +45,9 @@ class TeachersController < ApplicationController
     end
     redirect_to teachers_path
   end
-  
+
   private
   def teacher_params
-    params.require(:teacher).permit(:username, :password, :password_confirmation)
+    params.require(:teacher).permit(:email, :password, :password_confirmation)
   end
 end
