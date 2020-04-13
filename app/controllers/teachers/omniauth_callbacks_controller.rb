@@ -6,7 +6,9 @@ class Teachers::OmniauthCallbacksController < Devise::OmniauthCallbacksControlle
 
   # You should also create an action method in this controller like this:
   def github
-    # You need to implement the method below in your model (e.g. app/models/user.rb)
+    # session[:omniauth] = request.env['omniauth.auth']
+    # redirect_to origin_url_on_success || '/'
+    You need to implement the method below in your model (e.g. app/models/user.rb)
     @user = Teacher.from_omniauth(request.env["omniauth.auth"])
 
     if @user.persisted?
@@ -14,7 +16,7 @@ class Teachers::OmniauthCallbacksController < Devise::OmniauthCallbacksControlle
       set_flash_message(:notice, :success, :kind => "Github") if is_navigational_format?
     else
       session["devise.github_data"] = request.env["omniauth.auth"]
-      redirect_to new_user_registration_url
+      redirect_to new_teacher_registration_url
     end
   end
 
@@ -30,6 +32,10 @@ class Teachers::OmniauthCallbacksController < Devise::OmniauthCallbacksControlle
   def failure
     super
   end
+
+  # def origin_url_on_success
+  #   request.env['omniauth.origin']
+  # end
 
   protected
 
