@@ -6,17 +6,28 @@ class Teachers::OmniauthCallbacksController < Devise::OmniauthCallbacksControlle
 
   # You should also create an action method in this controller like this:
   def github
-    # session[:omniauth] = request.env['omniauth.auth']
-    # redirect_to origin_url_on_success || '/'
-    You need to implement the method below in your model (e.g. app/models/user.rb)
-    @user = Teacher.from_omniauth(request.env["omniauth.auth"])
+    #You need to implement the method below in your model (e.g. app/models/user.rb)
+    if session.delete(:action) == 'sign_in'
 
-    if @user.persisted?
-      sign_in_and_redirect @user, :event => :authentication #this will throw if @user is not activated
-      set_flash_message(:notice, :success, :kind => "Github") if is_navigational_format?
-    else
-      session["devise.github_data"] = request.env["omniauth.auth"]
-      redirect_to new_teacher_registration_url
+      @user = Teacher.from_omniauth(request.env["omniauth.auth"])
+
+      if @user.persisted? || @user.save
+        sign_in(:teacher, @user)#, event: :authentication #this will throw if @user is not activated
+        set_flash_message(:notice, :success, :kind => "Github") if is_navigational_format?
+      else
+        session["devise.github_data"] = request.env["omniauth.auth"]
+        redirect_to new_teacher_registration_path
+      end
+
+    elsif session.delete(:action) == 'sign_up'
+      Teachers::RegistrationsController.new.create
+      # @user = Teacher.find_or_create_by(uid: auth['uid']) do |u|
+      #   u.email = auth['info']['email']
+      # end
+
+      #session[:type] = @user.id
+
+      #redirect_to @user
     end
   end
 
