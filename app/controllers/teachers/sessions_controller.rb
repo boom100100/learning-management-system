@@ -3,10 +3,13 @@
 class Teachers::SessionsController < Devise::SessionsController
   include Accessible
   skip_before_action :check_user, only: :destroy
-  # before_action :configure_sign_in_params, only: [:create]
+  skip_before_action :verify_signed_out_user, only: :destroy
+
+  #before_action :configure_sign_in_params, only: [:create]
 
   # GET /resource/sign_in
   def new
+    session[:action] = 'sign_in'
     super
   end
 
@@ -18,7 +21,6 @@ class Teachers::SessionsController < Devise::SessionsController
   # DELETE /resource/sign_out
   def destroy
     super
-    redirect_to teachers_path
   end
 
   protected
