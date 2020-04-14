@@ -7,7 +7,7 @@ class Teachers::OmniauthCallbacksController < Devise::OmniauthCallbacksControlle
   # You should also create an action method in this controller like this:
   def github
     #You need to implement the method below in your model (e.g. app/models/user.rb)
-    if session.delete(:action) == 'sign_in'
+
 
       @user = Teacher.from_omniauth(request.env["omniauth.auth"])
 
@@ -19,8 +19,7 @@ class Teachers::OmniauthCallbacksController < Devise::OmniauthCallbacksControlle
         redirect_to new_teacher_registration_path
       end
 
-    elsif session.delete(:action) == 'sign_up'
-      Teachers::RegistrationsController.new.create
+
       # @user = Teacher.find_or_create_by(uid: auth['uid']) do |u|
       #   u.email = auth['info']['email']
       # end
@@ -28,7 +27,7 @@ class Teachers::OmniauthCallbacksController < Devise::OmniauthCallbacksControlle
       #session[:type] = @user.id
 
       #redirect_to @user
-    end
+    
   end
 
   # More info at:
