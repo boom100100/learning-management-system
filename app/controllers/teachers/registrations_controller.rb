@@ -8,6 +8,7 @@ class Teachers::RegistrationsController < Devise::RegistrationsController
 
   # GET /resource/sign_up
   def new
+    session[:action] = 'sign_up'
     super
   end
 
