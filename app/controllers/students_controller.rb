@@ -10,10 +10,6 @@ class StudentsController < ApplicationController
   def create
     student = Student.create(student_params)
     if student
-      session[:user_id] = student.id
-      session[:type] = 'student'
-      session[:privilege] = 'student'
-
       redirect_to(students_path)
     else
       redirect_to(new_student_path)
@@ -69,6 +65,6 @@ class StudentsController < ApplicationController
 
   private
   def student_params
-    params.require(:student).permit(:username, :password, :password_confirmation)
+    params.require(:student).permit(:email, :password, :password_confirmation)
   end
 end
