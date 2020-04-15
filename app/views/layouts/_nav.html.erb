@@ -1,0 +1,37 @@
+<div class="navbar">
+  <a href='/'>Home</a>
+  <a href='/teachers'>Teachers</a>
+  <a href='/students'>Students</a>
+  <a href='/courses'>Courses</a>
+  <a href='/lessons'>Lessons</a>
+  <a href='/tags'>Categories</a>
+
+  <% path,name = nil,nil %>
+  <% if !signed_in? && request.path_info != '*sign_in' %>
+    <% path, name = 'sign_in', 'Sign In' %>
+  <% else %>
+    <% path, name = 'sign_out', 'Sign Out' %>
+  <% end %>
+
+  <div class="dropdown">
+    <button class="dropbtn"><%= name %>
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-content">
+      <% if name == 'Sign In' %>
+        <%= link_to 'Teachers', "/teachers/" + path %>
+        <%= link_to 'Students', "/students/" + path %>
+        <%= link_to 'Administrators', "/admins/" + path %>
+
+      <% else %>
+        <% if current_teacher %>
+        <%= button_to 'Teachers', { controller: 'teachers/sessions', action: :destroy, id: current_teacher.id }, method: :delete %>
+        <% elsif current_student %>
+          <%= button_to 'Students', { controller: 'students/sessions', action: :destroy, id: current_student.id }, method: :delete %>
+        <% elsif current_admin %>
+          <%= button_to 'Administrators', { controller: 'admins/sessions', action: :destroy, id: current_admin.id }, method: :delete %>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>
