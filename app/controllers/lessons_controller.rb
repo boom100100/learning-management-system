@@ -1,6 +1,12 @@
 class LessonsController < ApplicationController
   def index
-    @lessons = Lesson.all
+    if params[:teacher_id]
+      @lessons = Teacher.find_by(id: params[:teacher_id]).lessons
+    elsif params[:student_id]
+      @lessons = Student.find_by(id: params[:student_id]).lessons
+    else
+      @lessons = Lesson.all
+    end
   end
 
   def new
