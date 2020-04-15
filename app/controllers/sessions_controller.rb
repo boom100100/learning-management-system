@@ -5,16 +5,23 @@ class SessionsController < ApplicationController
     @student = Student.new
   end
 
+  def github_auth
+    redirect_to root_path
+  end
+
   def create
     type = params[:account_type]
     user = nil
 
     if type == 'student'
-      user = Student.find_by(username: params[:username])
+      user = Student.find_by(email: params[:email])
+      authenticate_student!
     elsif type == 'admin'
-      user = Admin.find_by(username: params[:username])
+      user = Admin.find_by(email: params[:email])
+      authenticate_admin!
     else
-      user = Teacher.find_by(username: params[:username])
+      user = Teacher.find_by(email: params[:email])
+      authenticate_teacher!
     end
 
     user = user.try(:authenticate, params[:password])
