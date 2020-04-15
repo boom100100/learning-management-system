@@ -9,11 +9,12 @@ class TeachersController < ApplicationController
   end
 
   def create
-    teacher = Teacher.create(teacher_params)
-    if teacher
-      redirect_to(teachers_path)
+    teacher = Teacher.new(teacher_params)
+    if teacher.valid?
+      teacher.save
+      redirect_to teachers_path
     else
-      redirect_to(new_teacher_path)
+      redirect_to new_teacher_path
     end
   end
 
@@ -27,8 +28,33 @@ class TeachersController < ApplicationController
 
   def update
     teacher = Teacher.find_by(id: params[:id])
-    teacher.update(teacher_params)
-    redirect_to teacher
+    Teacher.validators_on(params[:teacher][:email])
+    #teacher.validate_email(params[:teacher][:email])
+
+    #is email invalid?
+    if teacher.errors.size > 0
+      flash[:error] = "Email invalid. #{params[:teacher][:email]}"
+      redirect_to edit_teacher_path
+
+    #are passwords empty?
+    elsif params[:teacher][:password] == '' && params[:teacher][:password_confirmation] == ''
+      teacher.update_attribute('email', params[:teacher][:email])
+      flash[:notice] = 'Email updated successfully.'
+      redirect_to teacher
+
+    #passwords don't match?
+    elsif params[:teacher][:password] != params[:teacher][:password_confirmation]
+      flash[:error] = "Passwords don\'t match."
+      redirect_to edit_teacher_path
+
+    #passwords match?
+  elsif (params[:teacher][:password] == params[:teacher][:password_confirmation]) && params[:teacher][:password].length > 5
+      teacher.update(teacher_params)
+      flash[:notice] = 'Email and/or password updated successfully.'
+      redirect_to teacher
+    else
+      redirect_to edit_teacher_path
+    end
   end
 
   def destroy
