@@ -1,11 +1,18 @@
 class CoursesController < ApplicationController
   def index
-    @courses = Course.all
+    #@courses = Course.all
+    if params[:teacher_id]
+      @courses = Teacher.find_by(id: params[:teacher_id]).courses
+    elsif params[:student_id]
+      @courses = Student.find_by(id: params[:student_id]).courses
+    else
+      @courses = Course.all
+    end
   end
 
   def new # TODO: needs authorization restrictions
     @course = Course.new
-    @teachers = Teacher.all.collect{|element| [element.username, element.id]}
+    @teachers = Teacher.all.collect{|element| [element.email, element.id]}
 
   end
 
