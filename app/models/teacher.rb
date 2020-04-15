@@ -28,6 +28,4 @@ class Teacher < ApplicationRecord
       user.save
     end
   end
-
-  
 end
