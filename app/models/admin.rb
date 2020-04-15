@@ -5,7 +5,7 @@ class Admin < ApplicationRecord
          :recoverable, :rememberable, :validatable
   #has_secure_password
   validates :email, uniqueness: { case_sensitive: false, message: 'This username is already taken.' }
-  validates :password, confirmation: true
+  validates :password, length: { minimum: 6 }, confirmation: true
 
   def self.new_with_session(params, session)
     super.tap do |user|
