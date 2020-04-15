@@ -8,7 +8,7 @@ class Teacher < ApplicationRecord
   has_many :students, through: :courses
 
   validates :email, uniqueness: true
-  validates :password, length: { minimum: 6 }
+  validates :password, length: { minimum: 6 }, confirmation: true, on: :account_setup
 
   def self.new_with_session(params, session)
     super.tap do |user|
@@ -28,4 +28,6 @@ class Teacher < ApplicationRecord
       user.save
     end
   end
+
+  
 end
