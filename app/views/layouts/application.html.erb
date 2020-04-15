@@ -7,27 +7,29 @@
     <%= csp_meta_tag %>
 
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_link_tag 'nav_bar', media: 'all', 'data-turbolinks-track': 'reload' %>
     <% javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+
+
   </head>
 
   <body>
     <header></header>
-    <ul>
-      <li><a href='/'>Home</a></li>
-      <li><a href='/teachers'>Teachers</a></li>
-      <li><a href='/students'>Students</a></li>
-      <li><a href='/courses'>Courses</a></li>
-      <li><a href='/lessons'>Lessons</a></li>
-      <li><a href='/tags'>Categories</a></li>
+    <%= render 'layouts/nav' %>
 
-      <% if !session[:user_id] && request.path_info != '/login' %>
-        <li><a href='/login'>Log In</a></li>
-      <% end %>
-      <% if session[:user_id] %>
-        <li><a href='/logout'>Log Out</a></li>
-      <% end %>
-    </ul>
+      <% #session.clear %>
+      <%= session.keys %>
 
+      <%= params.keys %>
+      <%= params[:code] %>
+      <%= params[:state] %>
+      <% #= params[:teacher_id] %>
+      <%= params[:controller] %>
+      <%= params[:action] %>
+
+    <% if flash[:notice] %>
+      <div class="notice"><%= flash[:notice].html_safe %></div>
+    <% end %>
     <% if flash[:error] %>
       <div class="error"><%= flash[:error].html_safe %></div>
     <% end %>
