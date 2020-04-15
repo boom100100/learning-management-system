@@ -9,7 +9,7 @@ class Teachers::SessionsController < Devise::SessionsController
 
   # GET /resource/sign_in
   def new
-    session[:action] = 'sign_in'
+    session[:type] = 'teacher'
     super
   end
 

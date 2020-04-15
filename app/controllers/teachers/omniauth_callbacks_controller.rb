@@ -8,26 +8,14 @@ class Teachers::OmniauthCallbacksController < Devise::OmniauthCallbacksControlle
   def github
     #You need to implement the method below in your model (e.g. app/models/user.rb)
 
-
+    if session[:type] == 'teacher'
       @user = Teacher.from_omniauth(request.env["omniauth.auth"])
+      complete_github(@user, :teacher, new_teacher_registration_path)
 
-      if @user.persisted? || @user.save
-        sign_in(:teacher, @user)#, event: :authentication #this will throw if @user is not activated
-        set_flash_message(:notice, :success, :kind => "Github") if is_navigational_format?
-      else
-        session["devise.github_data"] = request.env["omniauth.auth"]
-        redirect_to new_teacher_registration_path
-      end
-
-
-      # @user = Teacher.find_or_create_by(uid: auth['uid']) do |u|
-      #   u.email = auth['info']['email']
-      # end
-
-      #session[:type] = @user.id
-
-      #redirect_to @user
-    
+    elsif session[:type] == 'student'
+      @user = Student.from_omniauth(request.env["omniauth.auth"])
+      complete_github(@user, :student, new_teacher_registration_path)
+    end
   end
 
   # More info at:
@@ -52,5 +40,17 @@ class Teachers::OmniauthCallbacksController < Devise::OmniauthCallbacksControlle
   # The path used when OmniAuth fails
   def after_omniauth_failure_path_for(scope)
     super(scope)
+  end
+
+  private
+
+  def complete_github(user, type_hash, registration_path)
+    if user.persisted? || user.save
+      sign_in(type_hash, user)#, event: :authentication #this will throw if @user is not activated
+      set_flash_message(:notice, :success, :kind => "Github") if is_navigational_format?
+    else
+      session["devise.github_data"] = request.env["omniauth.auth"]
+      redirect_to registration_path
+    end
   end
 end
