@@ -4,7 +4,7 @@ class Students::SessionsController < Devise::SessionsController
   include Accessible
   before_action :check_user
   skip_before_action :check_user, only: :destroy
-  # before_action :configure_sign_in_params, only: [:create]
+  skip_before_action :verify_signed_out_user, only: :destroy
 
   # GET /resource/sign_in
   def new
