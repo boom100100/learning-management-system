@@ -1,23 +1,22 @@
 class CoursesController < ApplicationController
+  before_action :authorize_teacher_or_admin, except: [:index, :show]
+
   def index
-    #@courses = Course.all
-    if params[:teacher_id]
-      @courses = Teacher.find_by(id: params[:teacher_id]).courses
-    elsif params[:student_id]
-      @courses = Student.find_by(id: params[:student_id]).courses
-    else
-      @courses = Course.all
-    end
-    @teacher_or_admin = (admin? || teacher?)
+    @courses = Course.all.published
+    @teacher_or_admin = visitor_teacher_or_admin?
   end
 
-  def new # TODO: needs authorization restrictions
+  def drafts
+    @courses = Course.all.drafts
+    #@teacher_or_admin = visitor_teacher_or_admin?
+  end
+
+  def new
     @course = Course.new
     @teachers = Teacher.all.collect{|element| [element.email, element.id]}
-
   end
 
-  def create # TODO: needs authorization restrictions
+  def create
     course = Course.create(course_params)
     if course
       redirect_to courses_path
@@ -28,20 +27,21 @@ class CoursesController < ApplicationController
 
   def show
     @course = Course.find_by(id: params[:id])
+    @teacher_or_admin = visitor_teacher_or_admin?
   end
 
-  def edit # TODO: needs authorization restrictions
+  def edit
     @course = Course.find_by(id: params[:id])
     @teachers = Teacher.all.collect{|element| [element.username, element.id]}
   end
 
-  def update # TODO: needs authorization restrictions
+  def update
     course = Course.find_by(id: params[:id])
     course.update(course_params)
     redirect_to course
   end
 
-  def destroy # TODO: needs authorization restrictions
+  def destroy
     course = Course.find_by(id: params[:id])
     course.lessons.destroy_all
     course.destroy
@@ -51,6 +51,6 @@ class CoursesController < ApplicationController
   private
 
   def course_params
-    params.require(:course).permit(:name, :description, :teacher_id)
+    params.require(:course).permit(:name, :description, :status, :teacher_id)
   end
 end

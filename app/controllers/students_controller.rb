@@ -1,6 +1,6 @@
 class StudentsController < ApplicationController
   before_action :authorize_admin, only: [:new, :create]
-  before_action :authorize_self_or_admin, only: [:edit, :update, :destroy]
+  before_action :authorize_self_or_admin, only: [:edit, :update, :destroy, :add_course, :remove_course]
 
   def index
     @students = Student.all
@@ -12,11 +12,12 @@ class StudentsController < ApplicationController
   end
 
   def create
-    student = Student.create(student_params)
-    if student
-      redirect_to(students_path)
+    student = Student.new(student_params)
+    if student.valid?
+      student.save
+      redirect_to students_path
     else
-      redirect_to(new_student_path)
+      redirect_to new_student_path
     end
   end
 
@@ -33,8 +34,32 @@ class StudentsController < ApplicationController
 
   def update
     student = Student.find_by(id: params[:id])
-    student.update(student_params)
-    redirect_to student
+    Student.validators_on(params[:student][:email])
+
+    #is email invalid?
+    if student.errors.size > 0
+      flash[:error] = "Email invalid. #{params[:student][:email]}"
+      redirect_to edit_student_path
+
+    #are passwords empty?
+    elsif params[:student][:password] == '' && params[:student][:password_confirmation] == ''
+      student.update_attribute('email', params[:student][:email])
+      flash[:notice] = 'Email updated successfully.'
+      redirect_to student
+
+    #passwords don't match?
+    elsif params[:student][:password] != params[:student][:password_confirmation]
+      flash[:error] = "Passwords don\'t match."
+      redirect_to edit_student_path
+
+    #passwords match?
+  elsif (params[:student][:password] == params[:student][:password_confirmation]) && params[:student][:password].length > 5
+      student.update(student_params)
+      flash[:notice] = 'Email and/or password updated successfully.'
+      redirect_to student
+    else
+      redirect_to edit_student_path
+    end
   end
 
   def destroy
@@ -43,17 +68,12 @@ class StudentsController < ApplicationController
 
     student.destroy
 
-    if session[:type] == 'student' && session[:user_id] == id
-      reset_session
-      return redirect_to root_path
-    end
-
     redirect_to students_path
   end
 
   def add_course # TODO: add is_student validation
     #adds course to user's courses
-    student = Student.find_by(id: session[:user_id])
+    student = Student.find_by(id: current_student.id)
     course = Course.find_by(id: params[:course_id])
     student.courses << course
     student.save
@@ -62,7 +82,7 @@ class StudentsController < ApplicationController
 
   def remove_course
     #removes course from user's courses
-    student = Student.find_by(id: session[:user_id])
+    student = Student.find_by(id: current_student.id)
     course = Course.find_by(id: params[:course_id])
     student.courses.delete(course)
     student.save

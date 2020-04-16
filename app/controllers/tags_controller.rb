@@ -1,4 +1,6 @@
 class TagsController < ApplicationController
+  before_action :authorize_teacher_or_admin, except: [:index, :show]
+  
   def index
     @tag = Tag.new
     @tags = Tag.all

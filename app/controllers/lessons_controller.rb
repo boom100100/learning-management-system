@@ -1,5 +1,9 @@
 class LessonsController < ApplicationController
+  before_action :authorize_teacher_or_admin, except: [:index, :show]
+  before_action :authorize_user, only: [:show]
+
   def index
+=begin
     if params[:teacher_id]
       @lessons = Teacher.find_by(id: params[:teacher_id]).lessons
     elsif params[:student_id]
@@ -7,7 +11,13 @@ class LessonsController < ApplicationController
     else
       @lessons = Lesson.all
     end
+=end
+    @lessons = Lesson.all
     @teacher_or_admin = (admin? || teacher?)
+  end
+
+  def drafts
+    @lessons = Lesson.all.drafts
   end
 
   def new
@@ -68,6 +78,6 @@ class LessonsController < ApplicationController
   private
 
   def lesson_params
-    params.require(:lesson).permit(:name, :description, :tag_ids, :content, :transcript, :video_url, :dir_url, :course_id)
+    params.require(:lesson).permit(:name, :description, :tag_ids, :content, :transcript, :video_url, :dir_url, :status, :course_id)
   end
 end

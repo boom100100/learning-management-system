@@ -67,10 +67,6 @@ class TeachersController < ApplicationController
 
     teacher.destroy
 
-    if session[:type] == 'teacher' && session[:user_id] == id
-      reset_session
-      return redirect_to root_path
-    end
     redirect_to teachers_path
   end
 

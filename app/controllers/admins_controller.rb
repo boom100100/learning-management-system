@@ -65,7 +65,7 @@ class AdminsController < ApplicationController
     @admin = Admin.find_by(id: id)
     @admin.destroy
 
-    if session[:type] == 'admin' && session[:user_id] == id
+    if session[:type] == 'admin' && current_admin.id == id
       reset_session
       return redirect_to root_path
     end
