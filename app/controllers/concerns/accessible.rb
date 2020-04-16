@@ -24,7 +24,7 @@ module Accessible
     current_teacher
   end
   def student?
-    current_teacher
+    current_student
   end
   def signed_in?
     (admin? || teacher? || student?) ? true : false
@@ -44,6 +44,16 @@ module Accessible
 
   def visitor_self_or_admin?
     visitor_is_self? || admin?
+  end
+
+  def visitor_teacher_or_admin?
+    teacher? || admin?
+  end
+
+  def authorize_teacher_or_admin
+    unless visitor_teacher_or_admin?
+      direct_unauthorized
+    end
   end
 
   def authorize_self_or_admin
