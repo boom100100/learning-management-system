@@ -1,4 +1,3 @@
 <h1>Admins</h1>
-<%= render partial: 'shared/create_path', locals: {type: 'admin', new_path: new_admin_path } %><br />
-
-<%= render partial: 'shared/array_links', locals:{array: @admins, method: 'username'} %>
+<%= render partial: 'shared/create_path', locals:{type: 'Admin', new_path: new_admin_path } %><br />
+<%= render partial: 'shared/array_links', locals:{array: @admins, method: 'email'} %>
