@@ -1,4 +1,5 @@
 <h1>Profile</h1>
 
 <%= render partial: 'shared/user', locals: {user: @admin } %><br />
-<%= render partial: 'shared/update_delete', locals: {edit_path: edit_admin_path(@admin), delete_path: admin_path(@admin)} %>
+<%= render partial: 'shared/update_delete', locals: {edit_path: edit_admin_registration_path(@admin), delete_path: admin_path(@admin)} %>
+<%= render partial: 'shared/update_delete_admin', locals: {edit_path: edit_admin_path(@admin), delete_path: admin_path(@admin)} %>
