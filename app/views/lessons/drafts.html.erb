@@ -1,0 +1,6 @@
+<h1>Lessons</h1>
+<%= render partial: 'shared/create_path', locals:{type: 'Lesson', new_path: new_lesson_path } if @teacher_or_admin %><br />
+<% @lessons.each do |lesson| %>
+  <h2><%= link_to lesson.name, lesson %></h2><br />
+  <%= lesson.description %><br /><br />
+<% end %>
