@@ -2,6 +2,7 @@
 
 class Students::SessionsController < Devise::SessionsController
   include Accessible
+  before_action :check_user
   skip_before_action :check_user, only: :destroy
   # before_action :configure_sign_in_params, only: [:create]
 
