@@ -26,5 +26,7 @@
   Video Upload: <%= f.text_field :video_url %><br />
   Files Upload: <%= f.text_field :dir_url %><br />
 
+  Status: <%= f.select(:status, ['public', 'draft']) %><br />
+
   <%= f.submit %>
 <% end %>

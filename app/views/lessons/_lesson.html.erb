@@ -1,4 +1,4 @@
-<h1><%= lesson.name %></h1>
+<h1><%= lesson.name %></h1><%= "(#{lesson.status})" if lesson.status == 'draft' %><br />
 
 <%= render partial: 'shared/array_links', locals: {array: lesson.tags, method: 'name' } %>
 
