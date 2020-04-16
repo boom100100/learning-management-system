@@ -7,6 +7,7 @@ class LessonsController < ApplicationController
     else
       @lessons = Lesson.all
     end
+    @teacher_or_admin = (admin? || teacher?)
   end
 
   def new
