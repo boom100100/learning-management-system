@@ -1,4 +1,6 @@
 class AdminsController < ApplicationController
+  include Accessible
+  skip_before_action :check_user
   #before_action :authorize_admin
 
   def index
@@ -10,23 +12,19 @@ class AdminsController < ApplicationController
   end
 
   def create
-    admin = Admin.create(admin_params)
-    if admin.id
-      # TODO: signing in as new user likely isn't necessary in this context for any type of user.
-      session[:user_id] = admin.id
-      session[:type] = 'admin'
-      session[:privilege] = 'admin'
-
+    admin = Admin.new(admin_params)
+    if admin.valid?
+      admin.save
       redirect_to admins_path
     else
-      show_error(admin)
-      flash[:error] = "Couldn\'t create admin.<br />" + flash[:error]
-      redirect_to admins_path
+      flash[:error] = 'Could not create admin.'
+      redirect_to new_admin_path
     end
   end
 
   def show
     @admin = Admin.find_by(id: params[:id])
+    @visitor_is_self = visitor_is_self?
   end
 
   def edit
@@ -34,12 +32,34 @@ class AdminsController < ApplicationController
   end
 
   def update
-    #validate, update pw if present
-    #must input old pw to update pw
     admin = Admin.find_by(id: params[:id])
-    admin.update(admin_params)
-    admin ? redirect_to(admins_path) : render('Couldn\'t create admin.')
+    Admin.validators_on(params[:admin][:email])
+    #admin.validate_email(params[:admin][:email])
 
+    #is email invalid?
+    if admin.errors.size > 0
+      flash[:error] = "Email invalid. You input: '#{params[:admin][:email]}'."
+      redirect_to edit_admin_path
+
+    #are passwords empty?
+    elsif params[:admin][:password] == '' && params[:admin][:password_confirmation] == ''
+      admin.update_attribute('email', params[:admin][:email])
+      flash[:notice] = 'Email updated successfully.'
+      redirect_to admin
+
+    #passwords don't match?
+    elsif params[:admin][:password] != params[:admin][:password_confirmation]
+      flash[:error] = "Passwords don\'t match."
+      redirect_to edit_admin_path
+
+    #passwords match?
+    elsif (params[:admin][:password] == params[:admin][:password_confirmation]) && params[:admin][:password].length > 5
+      admin.update(admin_params)
+      flash[:notice] = 'Email and/or password updated successfully.'
+      redirect_to admin
+    else
+      redirect_to edit_admin_path
+    end
   end
 
   def destroy
