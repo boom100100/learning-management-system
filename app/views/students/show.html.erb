@@ -4,4 +4,4 @@
 <%= render partial: 'shared/update_delete_admin', locals: {edit_path: edit_student_path(@student), delete_path: student_path(@student)} %>
 
 <h1>Courses</h1>
-<%= render partial: 'shared/array_links', locals:{array: @student.courses, method: 'name'} %>
+<%= @student.courses.length > 0 ? (render partial: 'shared/array_links', locals:{array: @student.courses, method: 'name'}) : "There are no associated courses to display." %>
