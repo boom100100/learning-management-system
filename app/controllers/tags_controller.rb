@@ -2,6 +2,7 @@ class TagsController < ApplicationController
   def index
     @tag = Tag.new
     @tags = Tag.all
+    @teacher_or_admin = (admin? || teacher?)
   end
 
   def new
