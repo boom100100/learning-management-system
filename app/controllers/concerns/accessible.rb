@@ -1,8 +1,5 @@
 module Accessible
   extend ActiveSupport::Concern
-  included do
-    before_action :check_user
-  end
 
   protected
   def check_user
@@ -18,14 +15,6 @@ module Accessible
       flash.clear
       redirect_to current_student and return
     end
-  end
-
-  def direct?(user)
-    unless user
-      redirect_back(fallback_location: root_path)
-      return false
-    end
-    true
   end
 
   def admin?
@@ -55,5 +44,28 @@ module Accessible
 
   def visitor_self_or_admin?
     visitor_is_self? || admin?
+  end
+
+  def authorize_self_or_admin
+    unless visitor_self_or_admin?
+      direct_unauthorized
+    end
+  end
+
+  def authorize_admin
+    unless current_admin
+      direct_unauthorized
+    end
+  end
+
+  def authorize_user
+    unless signed_in?
+      direct_unauthorized
+    end
+  end
+
+  def direct_unauthorized
+    flash[:error] = "#{request.original_url} not found."
+    redirect_back(fallback_location: "/") # halts request cycle
   end
 end
