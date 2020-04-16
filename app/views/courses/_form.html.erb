@@ -3,5 +3,6 @@
 
   Teacher: <%= f.select(:teacher_id, ['', *@teachers]) %><br />
   Description : <%= f.text_area :description %><br />
+  Status: <%= f.select(:status, ['public', 'draft']) %><br />
   <%= f.submit %>
 <% end %>
