@@ -14,7 +14,7 @@ class DeviseCreateStudents < ActiveRecord::Migration[6.0]
       ## Rememberable
       t.datetime :remember_created_at
 
-      ##OAuth
+      ##OmniAuth github strategy
       t.string :provider
       t.string :uid
 

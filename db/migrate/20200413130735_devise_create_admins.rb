@@ -11,7 +11,7 @@ class DeviseCreateAdmins < ActiveRecord::Migration[6.0]
       t.string   :reset_password_token
       t.datetime :reset_password_sent_at
 
-      ##OAuth
+      ##OmniAuth github strategy
       t.string :provider
       t.string :uid
 
