@@ -8,6 +8,7 @@ class CoursesController < ApplicationController
     else
       @courses = Course.all
     end
+    @teacher_or_admin = (admin? || teacher?)
   end
 
   def new # TODO: needs authorization restrictions
