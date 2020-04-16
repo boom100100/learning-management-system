@@ -1,7 +1,7 @@
 <h1>Profile</h1>
-
 <%= render partial: 'shared/user', locals: {user: @student } %>
-<%= render partial: 'shared/update_delete', locals: {edit_path: edit_student_path(@student), delete_path: student_path(@student)} %>
+<%= render partial: 'shared/update_delete', locals: {edit_path: edit_student_registration_path(@student), delete_path: student_path(@student)} %>
+<%= render partial: 'shared/update_delete_admin', locals: {edit_path: edit_student_path(@student), delete_path: student_path(@student)} %>
 
 <h1>Courses</h1>
 <%= render partial: 'shared/array_links', locals:{array: @student.courses, method: 'name'} %>
