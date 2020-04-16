@@ -6,21 +6,21 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-Admin.create(username: 'a', password: 'password', password_confirmation: 'password')
-Admin.create(username: 'b', password: 'password', password_confirmation: 'password')
-Admin.create(username: 'c', password: 'password', password_confirmation: 'password')
+Admin.create(email: 'a@a.a', password: 'password', password_confirmation: 'password')
+Admin.create(email: 'b@b.b', password: 'password', password_confirmation: 'password')
+Admin.create(email: 'c@c.c', password: 'password', password_confirmation: 'password')
 
-teacher_a = Teacher.create(username: 'a', password: 'a', password_confirmation: 'a')
-Teacher.create(username: 'b', password: 'b', password_confirmation: 'b')
-Teacher.create(username: 'c', password: 'c', password_confirmation: 'c')
+teacher_a = Teacher.create(email: 'a@a.a', password: 'aaaaaa', password_confirmation: 'aaaaaa')
+Teacher.create(email: 'b@b.b', password: 'bbbbbb', password_confirmation: 'bbbbbb')
+Teacher.create(email: 'c@c.c', password: 'cccccc', password_confirmation: 'cccccc')
 
-Student.create(username: 'a', password: 'a', password_confirmation: 'a')
-Student.create(username: 'b', password: 'b', password_confirmation: 'b')
-Student.create(username: 'c', password: 'c', password_confirmation: 'c')
+Student.create(email: 'a@a.a', password: 'aaaaaa', password_confirmation: 'aaaaaa')
+Student.create(email: 'b@b.b', password: 'bbbbbb', password_confirmation: 'bbbbbb')
+Student.create(email: 'c@c.c', password: 'cccccc', password_confirmation: 'cccccc')
 
-course_a = Course.create(name: 'a', description: 'a', teacher: teacher_a)
-Course.create(name: 'b', description: 'b', teacher: teacher_a)
-Course.create(name: 'c', description: 'c', teacher: teacher_a)
+course_a = Course.create(name: 'a', description: 'a', teacher_id: teacher_a.id)
+Course.create(name: 'b', description: 'b', teacher_id: teacher_a.id)
+Course.create(name: 'c', description: 'c', teacher_id: teacher_a.id)
 
 tag_a = Tag.create([{name: 'a'}, {name: 'b'}, {name: 'c'}]).first
 
