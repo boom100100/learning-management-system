@@ -1,4 +1,7 @@
 class TeachersController < ApplicationController
+  include Accessible
+  skip_before_action :check_user
+  #before_action :admin?, only: [:new]
 
   def index
     @teachers = Teacher.all
@@ -20,6 +23,8 @@ class TeachersController < ApplicationController
 
   def show
     @teacher = Teacher.find_by(id: params[:id])
+    @visitor_is_self = visitor_is_self?
+    @visitor_self_or_admin = visitor_self_or_admin?
   end
 
   def edit
@@ -29,7 +34,6 @@ class TeachersController < ApplicationController
   def update
     teacher = Teacher.find_by(id: params[:id])
     Teacher.validators_on(params[:teacher][:email])
-    #teacher.validate_email(params[:teacher][:email])
 
     #is email invalid?
     if teacher.errors.size > 0
