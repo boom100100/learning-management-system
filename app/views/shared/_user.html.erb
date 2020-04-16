@@ -1,2 +1,2 @@
 <% #renders all viewable content for users %>
-<%= user.username %>
+<%= user ? user.email : 'User not found.' %>
