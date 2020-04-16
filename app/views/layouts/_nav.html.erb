@@ -11,9 +11,9 @@
   <% if !signed_in? && request.path_info != '*sign_in' %>
     <% path, name = 'sign_in', 'Sign In' %>
   <% else %>
-    <%= link_to 'My Profile', "/#{session[:type]}s/#{current_admin.id}" if current_admin %>
-    <%= link_to 'My Profile', "/#{session[:type]}s/#{current_teacher.id}" if current_teacher %>
-    <%= link_to 'My Profile', "/#{session[:type]}s/#{current_student.id}" if current_student %>
+    <%= link_to 'Profile', "/#{session[:type]}s/#{current_admin.id}" if current_admin %>
+    <%= link_to 'Profile', "/#{session[:type]}s/#{current_teacher.id}" if current_teacher %>
+    <%= link_to 'Profile', "/#{session[:type]}s/#{current_student.id}" if current_student %>
 
     <% path, name = 'sign_out', 'Sign Out' %>
   <% end %>
