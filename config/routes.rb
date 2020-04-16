@@ -23,9 +23,15 @@ Rails.application.routes.draw do
   end
 
 
-  devise_for :students, :controllers => {:registrations => "teachers/registrations", :sessions => "students/sessions", :passwords => "students/passwords" }
+  devise_for :students, :controllers => {:registrations => "students/registrations", :sessions => "students/sessions", :passwords => "students/passwords" }
   devise_scope :student do
     post '/students/new_post', to: 'students#create' #alternative create flow - not using devise.
+    resources :students, except: [:create] do
+      resources :courses
+      get '/add_course', to: 'students#add_course'
+      get '/remove_course', to: 'students#remove_course'
+    end
+
     get "/auth/github/callback" => "teachers/omniauth_callbacks#github" #####teachers handles all github auth
   end
 
@@ -35,11 +41,13 @@ Rails.application.routes.draw do
     get '/remove_course', to: 'students#remove_course'
   end
 
+  get '/courses/drafts', to: 'courses#drafts'
   resources :courses do
     resources :lessons
     resources :students, only: [:index, :show]
   end
 
+  get '/lessons/drafts', to: 'lessons#drafts'
   resources :lessons
   get '/download_files', to: 'lessons#download_dir'
 
