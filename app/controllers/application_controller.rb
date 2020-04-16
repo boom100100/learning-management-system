@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+  include Accessible
   protect_from_forgery
 
   configure do
