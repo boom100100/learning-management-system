@@ -1,47 +1,39 @@
 Rails.application.routes.draw do
+  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 
-  root :to => 'sessions#new'
+  root :to => 'application#index'
 
-  resources :admins
+
+  ###admins
+  ###devise paths go to admins/controllers
+  #no github auth for admins (devise_scope)
   devise_for :admins, :controllers => {:registrations => "admins/registrations", :sessions => "admins/sessions", :passwords => "admins/passwords" }
   devise_scope :admin do
-    get "/admins/auth/github/callback" => "admins/omniauth_callbacks#github"
+    resources :admins, :except => [:create]
+    post '/admins/new_post', to: 'admins#create' #alternative create flow - not using devise.
   end
-  #get '/auth/github'
-  get '/auth/github/callback', to: 'sessions#github_auth'
+
   devise_for :teachers, :controllers => {:registrations => "teachers/registrations", :sessions => "teachers/sessions", :passwords => "teachers/passwords" }
   devise_scope :teacher do
-    #get "/teachers/auth/github"
-    #get "/teachers/auth/github/callback" => "teachers/omniauth_callbacks#github"
-    resources :courses
+    post '/teachers/new_post', to: 'teachers#create' #alternative create flow - not using devise.
+    resources :teachers, :except => [:create] do
+      resources :courses
+    end
+    get "/auth/:provider/callback", to: "teachers/omniauth_callbacks#github"
   end
-  resources :teachers do
-    resources :courses
-  end
+
 
   devise_for :students, :controllers => {:registrations => "teachers/registrations", :sessions => "students/sessions", :passwords => "students/passwords" }
   devise_scope :student do
-    get "/students/auth/github/callback" => "students/omniauth_callbacks#github"
+    post '/students/new_post', to: 'students#create' #alternative create flow - not using devise.
+    get "/auth/github/callback" => "teachers/omniauth_callbacks#github" #####teachers handles all github auth
   end
 
   resources :students do
+    resources :courses
     get '/add_course', to: 'students#add_course'
     get '/remove_course', to: 'students#remove_course'
   end
-
-  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
-
-
-
-  # get '/auth/github/callback', to: 'sessions#github_auth'
-  #get '/auth/failure', to: redirect('/')
-  # post '/login', to: 'sessions#create'
-  #
-   get '/logout', to: 'sessions#destroy'
-
-
-
-
 
   resources :courses do
     resources :lessons
