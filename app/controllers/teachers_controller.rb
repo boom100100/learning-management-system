@@ -1,10 +1,10 @@
 class TeachersController < ApplicationController
-  include Accessible
-  skip_before_action :check_user
-  #before_action :admin?, only: [:new]
+  before_action :authorize_admin, only: [:new, :create]
+  before_action :authorize_self_or_admin, only: [:edit, :update, :destroy]
 
   def index
     @teachers = Teacher.all
+    @is_admin = admin?
   end
 
   def new

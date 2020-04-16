@@ -1,6 +1,10 @@
 class StudentsController < ApplicationController
+  before_action :authorize_admin, only: [:new, :create]
+  before_action :authorize_self_or_admin, only: [:edit, :update, :destroy]
+
   def index
     @students = Student.all
+    @is_admin = admin?
   end
 
   def new
@@ -19,6 +23,8 @@ class StudentsController < ApplicationController
   def show
     @student = Student.find_by(id: params[:id])
     @courses = @student.courses.collect{|c| [c, c.name]}
+    @visitor_is_self = visitor_is_self?
+    @visitor_self_or_admin = visitor_self_or_admin?
   end
 
   def edit
