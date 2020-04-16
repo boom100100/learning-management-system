@@ -1,5 +1,6 @@
 <div class="navbar">
   <a href='/'>Home</a>
+  <%= link_to 'Admins', admins_path if current_admin %>
   <a href='/teachers'>Teachers</a>
   <a href='/students'>Students</a>
   <a href='/courses'>Courses</a>
@@ -10,6 +11,10 @@
   <% if !signed_in? && request.path_info != '*sign_in' %>
     <% path, name = 'sign_in', 'Sign In' %>
   <% else %>
+    <%= link_to 'My Profile', "/#{session[:type]}s/#{current_admin.id}" if current_admin %>
+    <%= link_to 'My Profile', "/#{session[:type]}s/#{current_teacher.id}" if current_teacher %>
+    <%= link_to 'My Profile', "/#{session[:type]}s/#{current_student.id}" if current_student %>
+
     <% path, name = 'sign_out', 'Sign Out' %>
   <% end %>
 
@@ -25,7 +30,7 @@
 
       <% else %>
         <% if current_teacher %>
-        <%= button_to 'Teachers', { controller: 'teachers/sessions', action: :destroy, id: current_teacher.id }, method: :delete %>
+          <%= button_to 'Teachers', { controller: 'teachers/sessions', action: :destroy, id: current_teacher.id }, method: :delete %>
         <% elsif current_student %>
           <%= button_to 'Students', { controller: 'students/sessions', action: :destroy, id: current_student.id }, method: :delete %>
         <% elsif current_admin %>
