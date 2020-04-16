@@ -1,7 +1,5 @@
 class AdminsController < ApplicationController
-  include Accessible
-  skip_before_action :check_user
-  #before_action :authorize_admin
+  before_action :authorize_admin
 
   def index
     @admins = Admin.all
@@ -76,12 +74,7 @@ class AdminsController < ApplicationController
   end
 
   private
-  def authorize_admin
-    unless session[:privilege] == 'admin'
-      flash[:error] = 'Only admins can view /admins.'
-      redirect_to "/" # halts request cycle
-    end
-  end
+
 
   def show_error(object)
     if object.errors.any?
