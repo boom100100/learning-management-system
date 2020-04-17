@@ -9,12 +9,14 @@ Rails.application.routes.draw do
   #no github auth for admins (devise_scope)
   devise_for :admins, :controllers => {:registrations => "admins/registrations", :sessions => "admins/sessions", :passwords => "admins/passwords" }
   devise_scope :admin do
+    get '/admins/sign_out', to: 'admins/sessions#destroy'
     resources :admins, :except => [:create]
     post '/admins/new_post', to: 'admins#create' #alternative create flow - not using devise.
   end
 
   devise_for :teachers, :controllers => {:registrations => "teachers/registrations", :sessions => "teachers/sessions", :passwords => "teachers/passwords" }
   devise_scope :teacher do
+    get '/teachers/sign_out', to: 'teachers/sessions#destroy'
     post '/teachers/new_post', to: 'teachers#create' #alternative create flow - not using devise.
     resources :teachers, :except => [:create] do
       resources :courses
@@ -25,11 +27,15 @@ Rails.application.routes.draw do
 
   devise_for :students, :controllers => {:registrations => "students/registrations", :sessions => "students/sessions", :passwords => "students/passwords" }
   devise_scope :student do
+    get '/students/sign_out', to: 'students/sessions#destroy'
     post '/students/new_post', to: 'students#create' #alternative create flow - not using devise.
     resources :students, except: [:create] do
       resources :courses
       get '/add_course', to: 'students#add_course'
       get '/remove_course', to: 'students#remove_course'
+
+      get '/lesson_complete', to: 'students#lesson_complete'
+      get '/course_complete', to: 'students#course_complete'
     end
 
     get "/auth/github/callback" => "teachers/omniauth_callbacks#github" #####teachers handles all github auth

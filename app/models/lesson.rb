@@ -4,6 +4,10 @@ class Lesson < ApplicationRecord
 
   belongs_to :course
 
+  has_many :lesson_course_students
+  has_many :course_students, through: :lesson_course_students
+
+
   scope :by_status, -> (status) { where('status = ?', status) }
   scope :published, -> { by_status("public") }
   scope :drafts, -> { by_status("draft") }

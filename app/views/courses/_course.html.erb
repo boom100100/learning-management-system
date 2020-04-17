@@ -1,3 +1,8 @@
 <h1><%= course.name %></h1><%= "(#{course.status})" if course.status == 'draft' %><br />
 <h2>Taught by: <%= course.teacher.nil? ? 'Unassigned' : link_to(course.teacher.email, course.teacher) %></h2>
 <p><%= course.description %></p>
+
+<% if @course_student %>
+  <%= link_to "Mark Incomplete", student_course_complete_path({student_id: current_student.id, :course_student => @course_student}) if @course_student.completed %>
+  <%= link_to "Mark Completed", student_course_complete_path({student_id: current_student.id, :course_student => @course_student}) if !@course_student.completed %><br />
+<% end %>

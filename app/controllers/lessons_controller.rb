@@ -39,6 +39,15 @@ class LessonsController < ApplicationController
 
   def show
     @lesson = Lesson.find_by(id: params[:id])
+    #a student is signed in
+    if current_student
+        #is student enrolled in this lesson's course?
+        #will decide if button to mark lesson completed will appear
+        @student = Student.find_by(id: current_student.id)
+        @course_student = CourseStudent.find_by(course: @lesson.course, student: @student)
+
+        @lesson_course_student = @lesson.lesson_course_students.find_by(course_student: @course_student, lesson: @lesson)
+    end
   end
 
   def edit

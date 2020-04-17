@@ -53,7 +53,7 @@ class StudentsController < ApplicationController
       redirect_to edit_student_path
 
     #passwords match?
-  elsif (params[:student][:password] == params[:student][:password_confirmation]) && params[:student][:password].length > 5
+    elsif (params[:student][:password] == params[:student][:password_confirmation]) && params[:student][:password].length > 5
       student.update(student_params)
       flash[:notice] = 'Email and/or password updated successfully.'
       redirect_to student
@@ -75,6 +75,10 @@ class StudentsController < ApplicationController
     #adds course to user's courses
     student = Student.find_by(id: current_student.id)
     course = Course.find_by(id: params[:course_id])
+
+    course_student = CourseStudent.create(course: course, student: student)
+    course.lessons.each {|lesson| LessonCourseStudent.create!(completed: false, course_student: course_student, lesson: lesson)}
+
     student.courses << course
     student.save
     redirect_to course
@@ -84,9 +88,38 @@ class StudentsController < ApplicationController
     #removes course from user's courses
     student = Student.find_by(id: current_student.id)
     course = Course.find_by(id: params[:course_id])
+
+    course_student = CourseStudent.find_by(course: course, student: student)
+    course.lessons.each {|lesson| lesson.lesson_course_students.destroy_all }
+    course_student.destroy
+
     student.courses.delete(course)
     student.save
     redirect_to course
+  end
+
+  def lesson_complete
+    lcs = LessonCourseStudent.find_by(id: params[:lesson_course_student])
+    lcs.completed = !lcs.completed
+    lcs.save
+
+    lcs.course_student.completed = false if lcs.completed == false
+    lcs.course_student.save
+
+    redirect_to lcs.lesson
+  end
+
+  def course_complete
+    cs = CourseStudent.find_by(id: params[:course_student])
+    cs.completed = !cs.completed
+    cs.save
+
+    cs.lesson_course_students.each {|lcs|
+      lcs.completed = true
+      lcs.save
+    } if cs.completed == true
+
+    redirect_to cs.course
   end
 
   private
