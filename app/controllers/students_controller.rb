@@ -53,7 +53,7 @@ class StudentsController < ApplicationController
       redirect_to edit_student_path
 
     #passwords match?
-  elsif (params[:student][:password] == params[:student][:password_confirmation]) && params[:student][:password].length > 5
+    elsif (params[:student][:password] == params[:student][:password_confirmation]) && params[:student][:password].length > 5
       student.update(student_params)
       flash[:notice] = 'Email and/or password updated successfully.'
       redirect_to student
