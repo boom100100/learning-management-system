@@ -30,6 +30,9 @@ Rails.application.routes.draw do
       resources :courses
       get '/add_course', to: 'students#add_course'
       get '/remove_course', to: 'students#remove_course'
+
+      get '/lesson_complete', to: 'students#lesson_complete'
+      get '/course_complete', to: 'students#course_complete'
     end
 
     get "/auth/github/callback" => "teachers/omniauth_callbacks#github" #####teachers handles all github auth
