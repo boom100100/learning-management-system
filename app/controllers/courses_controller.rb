@@ -28,6 +28,9 @@ class CoursesController < ApplicationController
   def show
     @course = Course.find_by(id: params[:id])
     @teacher_or_admin = visitor_teacher_or_admin?
+    if current_student
+      @course_student = CourseStudent.find_by(course: @course, student: Student.find_by(id: current_student.id))
+    end
   end
 
   def edit
