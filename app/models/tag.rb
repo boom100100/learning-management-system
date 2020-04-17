@@ -3,4 +3,6 @@ class Tag < ApplicationRecord
   has_many :lessons, through: :lesson_tags
 
   has_many :courses, through: :lessons
+
+  validates :name, presence: true
 end
