@@ -79,8 +79,6 @@ class StudentsController < ApplicationController
     course_student = CourseStudent.create(course: course, student: student)
     course.lessons.each {|lesson| LessonCourseStudent.create!(completed: false, course_student: course_student, lesson: lesson)}
 
-    student.courses << course
-    student.save
     redirect_to course
   end
 
@@ -93,8 +91,6 @@ class StudentsController < ApplicationController
     course.lessons.each {|lesson| lesson.lesson_course_students.destroy_all }
     course_student.destroy
 
-    student.courses.delete(course)
-    student.save
     redirect_to course
   end
 
