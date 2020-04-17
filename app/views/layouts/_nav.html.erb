@@ -30,11 +30,11 @@
 
       <% else %>
         <% if current_teacher %>
-          <%= button_to 'Teachers', { controller: 'teachers/sessions', action: :destroy, id: current_teacher.id }, method: :delete %>
+          <%= link_to "Teachers", destroy_teacher_session_path({teacher_id: current_teacher.id}) %>
         <% elsif current_student %>
-          <%= button_to 'Students', { controller: 'students/sessions', action: :destroy, id: current_student.id }, method: :delete %>
+          <%= link_to "Students", destroy_student_session_path({student_id: current_student.id}) %>
         <% elsif current_admin %>
-          <%= button_to 'Administrators', { controller: 'admins/sessions', action: :destroy, id: current_admin.id }, method: :delete %>
+          <%= link_to "Administrators", destroy_admin_session_path({admin_id: current_admin.id}) %>
         <% end %>
       <% end %>
     </div>
