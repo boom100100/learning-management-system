@@ -18,14 +18,14 @@
     <%= render 'layouts/nav' %>
 
       <% #session.clear %>
-      <%= session.keys %>
+      <% #= session.keys %>
 
-      <%= params.keys %>
-      <%= params[:code] %>
-      <%= params[:state] %>
+      <% #= params.keys %>
+      <% #= params[:code] %>
+      <% #= params[:state] %>
       <% #= params[:teacher_id] %>
-      <%= params[:controller] %>
-      <%= params[:action] %>
+      <% #= params[:controller] %>
+      <% #= params[:action] %>
 
     <% if flash[:notice] %>
       <div class="notice"><%= flash[:notice].html_safe %></div>
