@@ -1,27 +1,28 @@
 class CoursesController < ApplicationController
   before_action :authorize_teacher_or_admin, except: [:index, :show]
-
+  before_action :authorize_teacher_or_student, only: [:my_courses]
   def index
     @courses = Course.all.published
     @teacher_or_admin = visitor_teacher_or_admin?
   end
 
-  def drafts
-    @courses = Course.all.drafts
-    #@teacher_or_admin = visitor_teacher_or_admin?
-  end
+
 
   def new
+
     @course = Course.new
     @teachers = Teacher.all.collect{|element| [element.email, element.id]}
   end
 
   def create
-    course = Course.create(course_params)
-    if course
+    course = Course.new(course_params)
+    if course.save
       redirect_to courses_path
     else
-      'Couldn\'t create course.'
+
+
+      flash[:error] = course.errors.full_messages.to_s
+
     end
   end
 
@@ -52,6 +53,22 @@ class CoursesController < ApplicationController
     course.lessons.destroy_all
     course.destroy
     redirect_to courses_path
+  end
+
+  def drafts
+    @courses = Course.all.drafts
+    #@teacher_or_admin = visitor_teacher_or_admin?
+  end
+
+  def my_courses
+
+    if current_student
+      @courses = Student.find_by(id: current_student.id).courses
+    else
+      @courses = Teacher.find_by(id: current_teacher.id).courses
+      @teacher = true
+    end
+
   end
 
   private
