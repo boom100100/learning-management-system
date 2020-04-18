@@ -1,8 +1,30 @@
 <%= form_for @course do |f| %>
-  Name: <%= f.text_field :name %><br />
+  <% if @course.errors.any? %>
+  <div id="error_explanation">
+    <h2>
+      <%= pluralize(@course.errors.count, "error") %> prohibited this course from being saved:
+    </h2>
 
-  Teacher: <%= f.select(:teacher_id, ['', *@teachers]) %><br />
-  Description : <%= f.text_area :description %><br />
-  Status: <%= f.select(:status, ['public', 'draft']) %><br />
-  <%= f.submit %>
+    <ul>
+    <% @course.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+    </ul>
+  </div>
+  <% end %>
+
+
+    Name: <%= f.text_field :name %>
+    <%= "Name " + @course.errors[:name].join("; ") if @course.errors[:name].size > 0 %><br /><br />
+
+    Teacher: <%= f.select(:teacher_id, ['', *@teachers]) %>
+    <%= "Teacher " + @course.errors[:teacher].join("; ") if @course.errors[:teacher].size > 0 %><br /><br />
+
+    Description : <%= f.text_area :description %>
+    <%= "Description " + @course.errors[:description].join("; ") if @course.errors[:description].size > 0 %><br /><br />
+
+    Status: <%= f.select(:status, ['public', 'draft']) %>
+    <%= "Status " + @course.errors[:status].join("; ") if @course.errors[:status].size > 0 %><br /><br />
+
+    <%= f.submit %>
 <% end %>
