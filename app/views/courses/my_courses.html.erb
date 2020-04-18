@@ -1,0 +1,6 @@
+<h1>My Courses</h1>
+<%= link_to 'Create New Course', new_course_path if @teacher %><br />
+<% @courses.each do |course| %>
+  <h2><%= link_to course.name, course %></h2><br />
+  <%= course.description %><br /><br />
+<% end %>
