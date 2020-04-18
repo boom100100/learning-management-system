@@ -1,7 +1,26 @@
 <%= form_for user, :url => url_for(:controller => controller, :action => action) do |f| %>
+  <% if user.errors.any? %>
+  <div id="error_explanation">
+    <h2>
+      <%= pluralize(user.errors.count, "error") %> prohibited this user from being saved:
+    </h2>
+
+    <ul>
+    <% user.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+    </ul>
+  </div>
+  <% end %>
 
   Email Address: <%= f.text_field :email %><br />
+  <%= "Email " + user.errors[:email].join("; ") if user.errors[:email].size > 0 %><br /><br />
+
   Password : <%= f.password_field :password %><br />
+  <%= "Password " + user.errors[:password].join("; ") if user.errors[:password].size > 0 %><br /><br />
+
   Password Confirmation : <%= f.password_field :password_confirmation %><br />
+  <%= "Password confirmation " + user.errors[:password_confirmation].join("; ") if user.errors[:password_confirmation].size > 0 %><br /><br />
+
   <%= f.submit %>
 <% end %>
