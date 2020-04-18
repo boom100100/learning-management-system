@@ -50,6 +50,16 @@ module Accessible
     teacher? || admin?
   end
 
+  def visitor_teacher_or_student?
+    teacher? || student?
+  end
+
+  def authorize_teacher_or_student
+    unless visitor_teacher_or_student?
+      direct_unauthorized
+    end
+  end
+
   def authorize_teacher_or_admin
     unless visitor_teacher_or_admin?
       direct_unauthorized

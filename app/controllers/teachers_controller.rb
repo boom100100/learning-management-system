@@ -12,12 +12,11 @@ class TeachersController < ApplicationController
   end
 
   def create
-    teacher = Teacher.new(teacher_params)
-    if teacher.valid?
-      teacher.save
+    @teacher = Teacher.new(teacher_params)
+    if @teacher.save
       redirect_to teachers_path
     else
-      redirect_to new_teacher_path
+      render :new
     end
   end
 

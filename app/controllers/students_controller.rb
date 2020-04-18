@@ -12,12 +12,11 @@ class StudentsController < ApplicationController
   end
 
   def create
-    student = Student.new(student_params)
-    if student.valid?
-      student.save
+    @student = Student.new(student_params)
+    if @student.save
       redirect_to students_path
     else
-      redirect_to new_student_path
+      render :new
     end
   end
 

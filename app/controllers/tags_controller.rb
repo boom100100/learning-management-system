@@ -1,6 +1,6 @@
 class TagsController < ApplicationController
   before_action :authorize_teacher_or_admin, except: [:index, :show]
-  
+
   def index
     @tag = Tag.new
     @tags = Tag.all
@@ -17,11 +17,12 @@ class TagsController < ApplicationController
   end
 
   def create
-    @tag = Tag.create(tag_params)
-    unless @tag
-      flash[:error] = 'Could not create tag.'
+    @tag = Tag.new(tag_params)
+    if @tag.save
+      redirect_to tags_path
+    else
+      render :index
     end
-    redirect_to tags_path
   end
 
   def edit

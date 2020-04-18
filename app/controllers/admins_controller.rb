@@ -10,13 +10,12 @@ class AdminsController < ApplicationController
   end
 
   def create
-    admin = Admin.new(admin_params)
-    if admin.valid?
-      admin.save
+    @admin = Admin.new(admin_params)
+    if @admin.valid?
+      @admin.save!
       redirect_to admins_path
     else
-      flash[:error] = 'Could not create admin.'
-      redirect_to new_admin_path
+      render :new
     end
   end
 
@@ -86,6 +85,6 @@ class AdminsController < ApplicationController
   end
 
   def admin_params
-    params.require(:admin).permit(:username, :password, :password_confirmation)
+    params.require(:admin).permit(:email, :password, :password_confirmation)
   end
 end

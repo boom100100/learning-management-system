@@ -4,15 +4,6 @@ class LessonsController < ApplicationController
   before_action :authorize_teacher_or_student, only: [:my_lessons]
 
   def index
-=begin
-    if params[:teacher_id]
-      @lessons = Teacher.find_by(id: params[:teacher_id]).lessons
-    elsif params[:student_id]
-      @lessons = Student.find_by(id: params[:student_id]).lessons
-    else
-      @lessons = Lesson.all
-    end
-=end
     @lessons = Lesson.all
     @teacher_or_admin = (admin? || teacher?)
   end
@@ -28,14 +19,14 @@ class LessonsController < ApplicationController
   end
 
   def create
-    lesson = Lesson.new(lesson_params)
-    #lesson.tags = Tag.where(id: params[:lesson][:tag_ids])
+    @lesson = Lesson.new(lesson_params)
+    @courses = Course.all.collect { |p| [ p.name, p.id ] }
+    @tags = Tag.all
 
-    if lesson.save
-      redirect_to lesson
+    if @lesson.save
+      redirect_to @lesson
     else
-      flash[:error] = 'Could not create lesson.'
-      redirect_to new_lesson_path
+      render :new
     end
   end
 

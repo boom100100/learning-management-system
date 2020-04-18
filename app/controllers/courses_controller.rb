@@ -9,19 +9,17 @@ class CoursesController < ApplicationController
 
 
   def new
-
     @course = Course.new
     @teachers = Teacher.all.collect{|element| [element.email, element.id]}
   end
 
   def create
-    course = Course.new(course_params)
-    if course.save
+    @course = Course.new(course_params)
+    if @course.save
       redirect_to courses_path
     else
-
-
-      flash[:error] = course.errors.full_messages.to_s
+      @teachers = Teacher.all.collect{|element| [element.email, element.id]}
+      render :new
 
     end
   end
