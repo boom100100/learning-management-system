@@ -5,6 +5,7 @@
 From course: <%= lesson.course ? link_to(lesson.course.name, lesson.course) : 'Unassigned.' %><br />
 
 <%= render partial: 'shared/update_delete', locals: {edit_path: edit_lesson_path, delete_path: lesson } %>
+<%= render partial: 'shared/update_delete_admin', locals:{edit_path: edit_lesson_path, delete_path: lesson } %>
 
 <% if @lesson_course_student %>
   <%= link_to "Mark Incomplete", student_lesson_complete_path({student_id: current_student.id, :lesson_course_student => @lesson_course_student}) if @lesson_course_student.completed %>
