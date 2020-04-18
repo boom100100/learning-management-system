@@ -11,4 +11,12 @@ class Lesson < ApplicationRecord
   scope :by_status, -> (status) { where('status = ?', status) }
   scope :published, -> { by_status("public") }
   scope :drafts, -> { by_status("draft") }
+
+  validates :content, length: { minimum: 10 }
+  validates :course, presence: true
+  validates :description, length: { minimum: 10 }
+  validates :name, presence: true, uniqueness: { case_sensitive: false, message: 'This lesson name is already taken.' }
+  validates :status, presence: true
+  validates :tag, presence: true
+
 end
