@@ -1,6 +1,7 @@
 class LessonsController < ApplicationController
   before_action :authorize_teacher_or_admin, except: [:index, :show]
   before_action :authorize_user, only: [:show]
+  before_action :authorize_teacher_or_student, only: [:my_lessons]
 
   def index
 =begin
@@ -30,10 +31,11 @@ class LessonsController < ApplicationController
     lesson = Lesson.new(lesson_params)
     #lesson.tags = Tag.where(id: params[:lesson][:tag_ids])
 
-    if lesson.save!
-      redirect_to lessons_path
+    if lesson.save
+      redirect_to lesson
     else
-      'Couldn\'t create lesson.'
+      flash[:error] = 'Could not create lesson.'
+      redirect_to new_lesson_path
     end
   end
 
@@ -70,6 +72,16 @@ class LessonsController < ApplicationController
     lesson = Lesson.find_by(id: params[:id])
     lesson.destroy
     redirect_to lessons_path
+  end
+
+  def my_lessons
+    if current_student
+      @lessons = Student.find_by(id: current_student.id).lesson_course_students.lessons
+    else
+      @lessons = Teacher.find_by(id: current_teacher.id).courses.collect {|course| course.lessons }.flatten
+      @teacher = true
+    end
+
   end
 
 
