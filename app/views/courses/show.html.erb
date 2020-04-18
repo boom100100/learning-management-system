@@ -1,6 +1,7 @@
 <%= render @course %>
 
-<%= render partial: 'shared/update_delete', locals:{edit_path: edit_course_path(@course), delete_path: course_path(@course) } %>
+<%= render partial: 'shared/update_delete', locals:{edit_path: edit_course_path, delete_path: @course } %>
+<%= render partial: 'shared/update_delete_admin', locals:{edit_path: edit_course_path, delete_path: @course } %>
 
 <% if session[:type] == 'student' && @course.students.find_by(id: current_student.id).nil?#offer_course? %>
   <%= link_to "Add to My Courses", student_add_course_path({:student_id => current_student.id, :course_id => @course.id}) %><br />
