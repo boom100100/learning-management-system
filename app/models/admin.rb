@@ -4,8 +4,8 @@ class Admin < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
   #has_secure_password
-  validates :email, uniqueness: { case_sensitive: false, message: 'This username is already taken.' }
-  validates :password, length: { minimum: 6 }, confirmation: true
+  validates :email, uniqueness: true
+  validates :password, length: { minimum: 6 }, confirmation: true, on: :account_setup
 
   def self.new_with_session(params, session)
     super.tap do |user|
