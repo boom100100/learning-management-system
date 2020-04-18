@@ -47,12 +47,14 @@ Rails.application.routes.draw do
     get '/remove_course', to: 'students#remove_course'
   end
 
+  get '/my_courses', to: 'courses#my_courses'
   get '/courses/drafts', to: 'courses#drafts'
   resources :courses do
     resources :lessons
     resources :students, only: [:index, :show]
   end
 
+  get '/my_lessons', to: 'lessons#my_lessons'
   get '/lessons/drafts', to: 'lessons#drafts'
   resources :lessons
   get '/download_files', to: 'lessons#download_dir'
