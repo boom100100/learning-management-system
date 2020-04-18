@@ -4,7 +4,7 @@ class Admin < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
   #has_secure_password
-  validates :email, uniqueness: true
+  validates :email, presence: true, uniqueness: true
   validates :password, length: { minimum: 6 }, confirmation: true, on: :account_setup
 
   def self.new_with_session(params, session)

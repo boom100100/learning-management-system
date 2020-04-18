@@ -7,7 +7,7 @@ class Teacher < ApplicationRecord
   has_many :courses
   has_many :students, through: :courses
 
-  validates :email, uniqueness: true
+  validates :email, presence: true, uniqueness: true
   validates :password, length: { minimum: 6 }, confirmation: true, on: :account_setup
 
   def self.new_with_session(params, session)
