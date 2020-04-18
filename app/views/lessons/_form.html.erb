@@ -1,15 +1,33 @@
 <%= form_for @lesson do |f| %>
-  Name: <%= f.text_field :name %><br />
+  <% if @lesson.errors.any? %>
+  <div id="error_explanation">
+    <h2>
+      <%= pluralize(@lesson.errors.count, "error") %> prohibited this lesson from being saved:
+    </h2>
 
-  <% if session[:privilege] == 'admin' %>
+    <ul>
+    <% @lesson.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+    </ul>
+  </div>
+  <% end %>
+
+
+
+  Name: <%= f.text_field :name %><br />
+  <%= @lesson.errors[:name].join("; ") if @lesson.errors[:name].size > 0 %><br /><br />
+
+  <% if current_admin %>
     Course: <%= f.select :course_id, @courses, include_blank: true, :value => @lesson.course_id %>
   <% elsif params[:course_id] %>
     Course: <%= f.hidden_field :course_id, :value => params[:course_id] %>
-  <% elsif session[:type] == 'teacher' %>
+  <% elsif current_teacher %>
     Course: <%= f.select :course_id, @courses, include_blank: true, :value => params[:course_id] %>
   <% else %>
     Course: <%= f.select :course_id, @courses, include_blank: true, :value => @lesson.course_id %>
   <% end %><br />
+  <%= "Course " + @lesson.errors[:course].join("; ") if @lesson.errors[:course].size > 0 %><br /><br />
 
   <% # let teacher change course to their own courses %>
   <% # hide if accessed from teacher/show/course#new workflow %>
@@ -17,16 +35,25 @@
 
 
   Description: <%= f.text_area :description %><br />
+  <%= "Description " + @lesson.errors[:description].join("; ") if @lesson.errors[:description].size > 0 %><br /><br />
 
   Tags: <%= f.collection_check_boxes(:tag_ids, @tags, :id, :name) %><br />
+  <%= "Tags " + @lesson.errors[:tags].join("; ") if @lesson.errors[:tags].size > 0 %><br /><br />
 
   Content: <%= f.text_area :content %><br />
-  Transcript: <%= f.text_area :transcript %><br />
+  <%= "Content " + @lesson.errors[:content].join("; ") if @lesson.errors[:content].size > 0 %><br /><br />
 
-  Video Upload: <%= f.text_field :video_url %><br />
+  Transcript: <%= f.text_area :transcript %><br />
+  <%= "Transcript " + @lesson.errors[:transcript].join("; ") if @lesson.errors[:transcript].size > 0 %><br /><br />
+
+  Video: <%= f.text_field :video_url %><br />
+  <%= "Video " + @lesson.errors[:video_url].join("; ") if @lesson.errors[:video_url].size > 0 %><br /><br />
+
   Files Upload: <%= f.text_field :dir_url %><br />
+  <%= "Files Upload " + @lesson.errors[:dir_url].join("; ") if @lesson.errors[:dir_url].size > 0 %><br /><br />
 
   Status: <%= f.select(:status, ['public', 'draft']) %><br />
+  <%= "Status " + @lesson.errors[:status].join("; ") if @lesson.errors[:status].size > 0 %><br /><br />
 
   <%= f.submit %>
 <% end %>
