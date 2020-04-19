@@ -24,6 +24,6 @@ Course.create(name: 'c', description: 'cccccccccc', status: 'draft', teacher_id:
 
 tag_a = Tag.create([{name: 'a'}, {name: 'b'}, {name: 'c'}]).first
 
-Lesson.create(name: 'a', description: 'aaaaaaaaaa', content: 'aaaaaaaaaa', transcript: 'a', video_url: 'a', course: course_a, tags: [tag_a], status: 'public')
-Lesson.create(name: 'b', description: 'bbbbbbbbbb', content: 'bbbbbbbbbb', transcript: 'b', video_url: 'b', course: course_a, tags: [tag_a], status: 'public')
-Lesson.create(name: 'c', description: 'cccccccccc', content: 'cccccccccc', transcript: 'c', video_url: 'c', course: course_a, tags: [tag_a], status: 'draft')
+Lesson.create(name: 'a', description: 'aaaaaaaaaa', content: 'aaaaaaaaaa', transcript: 'a', video_url: 'https://www.youtube.com/embed/C0DPdy98e4c', course: course_a, tags: [tag_a], status: 'public')
+Lesson.create(name: 'b', description: 'bbbbbbbbbb', content: 'bbbbbbbbbb', transcript: 'b', video_url: 'https://www.youtube.com/embed/C0DPdy98e4c', course: course_a, tags: [tag_a], status: 'public')
+Lesson.create(name: 'c', description: 'cccccccccc', content: 'cccccccccc', transcript: 'c', video_url: 'https://www.youtube.com/embed/C0DPdy98e4c', course: course_a, tags: [tag_a], status: 'draft')
