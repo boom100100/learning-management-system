@@ -49,8 +49,9 @@
   Video: <%= f.text_field :video_url %><br />
   <%= "Video " + @lesson.errors[:video_url].join("; ") if @lesson.errors[:video_url].size > 0 %><br /><br />
 
-  Files Upload: <%= f.text_field :dir_url %><br />
-  <%= "Files Upload " + @lesson.errors[:dir_url].join("; ") if @lesson.errors[:dir_url].size > 0 %><br /><br />
+
+  Zip Files Upload: <%= f.file_field :zip_file, accept: 'application/zip' %><br />
+  <%= "Zip Files Upload " + @lesson.errors[:zip_file].join("; ") if @lesson.errors[:zip_file].size > 0 %><br /><br />
 
   Status: <%= f.select(:status, ['public', 'draft']) %><br />
   <%= "Status " + @lesson.errors[:status].join("; ") if @lesson.errors[:status].size > 0 %><br /><br />

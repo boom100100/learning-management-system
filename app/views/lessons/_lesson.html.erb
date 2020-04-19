@@ -5,7 +5,7 @@
 From course: <%= lesson.course ? link_to(lesson.course.name, lesson.course) : 'Unassigned.' %><br />
 
 <%= render partial: 'shared/update_delete', locals: {edit_path: edit_lesson_path, delete_path: lesson } %>
-<%= render partial: 'shared/update_delete_admin', locals:{edit_path: edit_lesson_path, delete_path: lesson } %>
+<%= render partial: 'shared/update_delete_admin', locals:{edit_path: edit_lesson_path, delete_path: lesson } %><br />
 
 <% if @lesson_course_student %>
   <%= link_to "Mark Incomplete", student_lesson_complete_path({student_id: current_student.id, :lesson_course_student => @lesson_course_student}) if @lesson_course_student.completed %>
@@ -28,7 +28,7 @@ From course: <%= lesson.course ? link_to(lesson.course.name, lesson.course) : 'U
 <p><%= lesson.content %></p>
 
 <h2>Lesson Files</h2>
-<%= link_to "Download", {:controller => "lessons", :action => "download_dir", :name => lesson.name } %>
+<%= link_to "Download", rails_blob_path(@lesson.zip_file, disposition: 'attachment') if @lesson.zip_file.attached? %>
 
 <h2>Other lessons in this course:</h2>
 <%= lesson.course ? render(partial: 'shared/array_links', locals: {array: lesson.course.lessons, method: 'name' }) : 'There are no other lessons.' %>
