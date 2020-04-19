@@ -77,18 +77,6 @@ class LessonsController < ApplicationController
 
   end
 
-
-
-  def download_dir
-    # TODO: validate for .zip file.
-    send_file(Rails.root.join('public', "docs/#{params[:name]}.zip"), :type=>"application/zip" , :x_sendfile=>true) # TODO: edit path
-  end
-
-  def upload_dir
-    # TODO: validate for .zip file.
-
-  end
-
   private
 
   def lesson_params
