@@ -1,4 +1,6 @@
 class Lesson < ApplicationRecord
+  has_one_attached :zip_file
+
   has_many :lesson_tags
   has_many :tags, through: :lesson_tags
 
@@ -17,6 +19,16 @@ class Lesson < ApplicationRecord
   validates :description, length: { minimum: 10 }
   validates :name, presence: true, uniqueness: { case_sensitive: false, message: 'This lesson name is already taken.' }
   validates :status, presence: true
-  validates :tag, presence: true
+  validates :tags, presence: true
+  validate :correct_zip_file_mime_type
+
+  private
+
+  def correct_zip_file_mime_type
+    if zip_file.attached? && !zip_file.content_type.in?(%w(application/zip))
+      zip_file.purge # delete the uploaded file
+      errors.add(:zip_file, 'Must be a .zip archive file.')
+    end
+  end
 
 end
