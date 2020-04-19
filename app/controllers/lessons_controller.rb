@@ -8,10 +8,6 @@ class LessonsController < ApplicationController
     @teacher_or_admin = (admin? || teacher?)
   end
 
-  def drafts
-    @lessons = Lesson.all.drafts
-  end
-
   def new
     @lesson = Lesson.new
     @courses = Course.all.collect { |p| [ p.name, p.id ] }
@@ -32,6 +28,8 @@ class LessonsController < ApplicationController
 
   def show
     @lesson = Lesson.find_by(id: params[:id])
+    @visitor_is_self = (@lesson.course.teacher.id == current_teacher.id) if current_teacher
+
     #a student is signed in
     if current_student
         #is student enrolled in this lesson's course?
@@ -65,6 +63,10 @@ class LessonsController < ApplicationController
     redirect_to lessons_path
   end
 
+  def drafts
+    @lessons = Lesson.all.drafts
+  end
+
   def my_lessons
     if current_student
       @lessons = Student.find_by(id: current_student.id).lesson_course_students.lessons
@@ -90,6 +92,6 @@ class LessonsController < ApplicationController
   private
 
   def lesson_params
-    params.require(:lesson).permit(:name, :description, :tag_ids, :content, :transcript, :video_url, :dir_url, :status, :course_id)
+    params.require(:lesson).permit(:name, :description, :tag_ids, :content, :transcript, :video_url, :zip_file, :status, :course_id)
   end
 end
