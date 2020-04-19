@@ -57,7 +57,6 @@ Rails.application.routes.draw do
   get '/my_lessons', to: 'lessons#my_lessons'
   get '/lessons/drafts', to: 'lessons#drafts'
   resources :lessons
-  get '/download_files', to: 'lessons#download_dir'
 
   resources :tags do
     resources :courses, only: [:index, :show]
