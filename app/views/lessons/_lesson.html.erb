@@ -12,11 +12,7 @@ From course: <%= lesson.course ? link_to(lesson.course.name, lesson.course) : 'U
   <%= link_to "Mark Completed", student_lesson_complete_path({student_id: current_student.id, :lesson_course_student => @lesson_course_student}) if !@lesson_course_student.completed %><br />
 <% end %>
 
-<video width="400" controls>
-  <source src="<%= lesson.video_url %>" type="video/mp4">
-    <source src="<%= lesson.video_url %>" type="video/ogg">
-    Your browser does not support HTML5 video.
-  </video>
+<iframe width="80%" height="400" src="<%= lesson.video_url %>"></iframe>
 
 <h2>Description</h2>
 <p><%= lesson.description %></p>
