@@ -19,7 +19,7 @@
 
 
   Name: <%= f.text_field :name %><br />
-  <%= "Name " + user.errors[:name].join("; ") if user.errors[:name].size > 0 %><br /><br />
+  <%= "Name " + @tag.errors[:name].join("; ") if @tag.errors[:name].size > 0 %><br /><br />
 
   <%= f.submit %>
 <% end %>
