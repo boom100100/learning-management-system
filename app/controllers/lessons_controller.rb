@@ -4,12 +4,18 @@ class LessonsController < ApplicationController
   before_action :authorize_teacher_or_student, only: [:my_lessons]
 
   def index
-    @lessons = Lesson.all
+    if params[:teacher_id]
+      @lessons = Teacher.find_by(id: params[:teacher_id]).lessons
+    elsif params[:student_id]
+      @lessons = Student.find_by(id: params[:student_id]).lessons
+    else
+      @lessons = Lesson.all.published
+    end
     @teacher_or_admin = (admin? || teacher?)
   end
 
   def new
-    @lesson = Lesson.new
+    @lesson = Lesson.new(course_id: params[:course_id])
     @courses = Course.all.collect { |p| [ p.name, p.id ] }
     @tags = Tag.all
   end

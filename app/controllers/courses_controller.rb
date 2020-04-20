@@ -1,15 +1,27 @@
 class CoursesController < ApplicationController
   before_action :authorize_teacher_or_admin, except: [:index, :show]
   before_action :authorize_teacher_or_student, only: [:my_courses]
+
+
+#don't let admins do sign-up functionality
+#don't let students that don't have lesson access lesson
+
+
   def index
-    @courses = Course.all.published
+    if params[:teacher_id]
+      @courses = Teacher.find_by(id: params[:teacher_id]).courses
+    elsif params[:student_id]
+      @courses = Student.find_by(id: params[:student_id]).courses
+    elsif params[:tag_id]
+      @courses = Tag.find_by(id: params[:tag_id]).courses
+    else
+      @courses = Course.all.published
+    end
     @teacher_or_admin = visitor_teacher_or_admin?
   end
 
-
-
   def new
-    @course = Course.new
+    @course = Course.new(teacher_id: params[:teacher_id])
     @teachers = Teacher.all.collect{|element| [element.email, element.id]}
   end
 
@@ -27,6 +39,7 @@ class CoursesController < ApplicationController
   def show
     @course = Course.find_by(id: params[:id])
     @teacher_or_admin = visitor_teacher_or_admin?
+    @visitor_is_self = (@course.teacher_id == current_teacher.id) if current_teacher
     #a student is signed in
     if current_student
       #is student enrolled in this lesson's course?
@@ -37,7 +50,8 @@ class CoursesController < ApplicationController
 
   def edit
     @course = Course.find_by(id: params[:id])
-    @teachers = Teacher.all.collect{|element| [element.username, element.id]}
+    @teachers = Teacher.all.collect{|element| [element.email, element.id]}
+    @visitor_is_self = (@course.teacher_id == current_teacher.id) if current_teacher
   end
 
   def update
