@@ -4,5 +4,5 @@
 <%= render partial: 'shared/update_delete_admin', locals: {edit_path: edit_teacher_path(@teacher), delete_path: teacher_path(@teacher)} %>
 
 <h1>Courses</h1>
-<%= link_to "New Course", new_course_path %><br />
+<%= link_to "New Course", new_teacher_course_path(@teacher) %>
 <%= render partial: 'shared/array_links', locals:{array: @teacher.courses, method: 'name'} %><br />
