@@ -1,6 +1,6 @@
 <h1>Courses</h1>
-<%= link_to 'Create New Course', new_course_path if @teacher_or_admin %><br />
 <% @courses.each do |course| %>
   <h2><%= link_to course.name, course %></h2><br />
+  <%= link_to course.teacher.email, teacher_courses_path(course.teacher) %><br />
   <%= course.description %><br /><br />
 <% end %>

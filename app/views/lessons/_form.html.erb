@@ -21,7 +21,7 @@
   <% if current_admin %>
     Course: <%= f.select :course_id, @courses, include_blank: true, :value => @lesson.course_id %>
   <% elsif params[:course_id] %>
-    Course: <%= f.hidden_field :course_id, :value => params[:course_id] %>
+    <%= f.hidden_field :course_id, :value => params[:course_id] %>
   <% elsif current_teacher %>
     Course: <%= f.select :course_id, @courses, include_blank: true, :value => params[:course_id] %>
   <% else %>

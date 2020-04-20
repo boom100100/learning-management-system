@@ -10,7 +10,7 @@
 <% end %>
 
 <h2>Lessons</h2>
-<%= render partial: 'shared/create_path', locals:{type: 'Lesson', new_path: new_lesson_path+"?course_id=#{@course.id}" } if @teacher_or_admin %><br />
+<%= render partial: 'shared/create_path', locals:{type: 'Lesson', new_path: new_course_lesson_path(@course.id) } if @teacher_or_admin %><br />
 <%= render partial: 'shared/array_links', locals:{array: @course.lessons, method: 'name'} %>
 
 
