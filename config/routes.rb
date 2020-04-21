@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   ###admins
   ###devise paths go to admins/controllers
   #no github auth for admins (devise_scope)
+  #sign_up path for admins generated, but :check_user prevents access.
   devise_for :admins, :controllers => {:registrations => "admins/registrations", :sessions => "admins/sessions", :passwords => "admins/passwords" }
   devise_scope :admin do
     get '/admins/sign_out', to: 'admins/sessions#destroy'
@@ -56,7 +57,10 @@ Rails.application.routes.draw do
 
   get '/my_lessons', to: 'lessons#my_lessons'
   get '/lessons/drafts', to: 'lessons#drafts'
-  resources :lessons
+  resources :lessons do
+    get '/destroy_zip_file', to: 'lessons#destroy_zip_file', as: 'destroy_zip_file'
+  end
+
 
   resources :tags do
     resources :courses, only: [:index, :show]
