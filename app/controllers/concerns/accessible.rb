@@ -14,6 +14,8 @@ module Accessible
     elsif current_student
       flash.clear
       redirect_to current_student and return
+    elsif request.original_fullpath == '/admins/sign_up'
+       redirect_back(fallback_location: "/")
     end
   end
 
