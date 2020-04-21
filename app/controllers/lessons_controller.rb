@@ -47,6 +47,7 @@ class LessonsController < ApplicationController
 
   def show
     @lesson = Lesson.find_by(id: params[:id])
+    @visitor_owner_or_admin = visitor_is_owner? || admin?
     @visitor_is_self = (@lesson.course.teacher.id == current_teacher.id) if current_teacher
 
     #a student is signed in
