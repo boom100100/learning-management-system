@@ -1,5 +1,5 @@
 class CoursesController < ApplicationController
-  before_action :authorize_teacher_or_admin, except: [:index, :show]
+  before_action :authorize_owner_or_admin, except: [:index, :show, :my_courses]
   before_action :authorize_teacher_or_student, only: [:my_courses]
 
   def index

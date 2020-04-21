@@ -1,5 +1,5 @@
 class LessonsController < ApplicationController
-  before_action :authorize_teacher_or_admin, except: [:index, :show]
+  before_action :authorize_owner_or_admin, except: [:index, :show, :my_lessons]
   before_action :authorize_user, only: [:show]
   before_action :authorize_teacher_or_student, only: [:my_lessons]
 
