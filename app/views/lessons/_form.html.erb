@@ -37,8 +37,10 @@
   Description: <%= f.text_area :description %><br />
   <%= "Description " + @lesson.errors[:description].join("; ") if @lesson.errors[:description].size > 0 %><br /><br />
 
-  Tags: <%= f.collection_check_boxes(:tag_ids, @tags, :id, :name) %><br />
-  <%= "Tags " + @lesson.errors[:tags].join("; ") if @lesson.errors[:tags].size > 0 %><br /><br />
+  Tags:
+  <%= f.collection_select(:tag_ids, @tags, :id, :name, {prompt: 'Select'}, {:multiple => true}) %>
+
+  <%= "Tags " + @lesson.errors[:tag_ids].join("; ") if @lesson.errors[:tag_ids].size > 0 %><br /><br />
 
   Content: <%= f.text_area :content %><br />
   <%= "Content " + @lesson.errors[:content].join("; ") if @lesson.errors[:content].size > 0 %><br /><br />
