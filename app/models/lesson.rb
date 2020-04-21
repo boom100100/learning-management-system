@@ -20,9 +20,7 @@ class Lesson < ApplicationRecord
   validates :name, presence: true, uniqueness: { case_sensitive: false, message: 'This lesson name is already taken.' }
   validates :status, presence: true
   validates :zip_file, content_type: :zip
-  #validates :zip_file, file_size: { less_than_or_equal_to: 5000.kilobytes, message: 'archive is too big' }, file_content_type: { allow: ['application/zip'], message: 'must be a .zip archive file.' }
-  #validates :zip_file, content_type: ["application/zip"]
-  validates :tag_ids, presence: true#, allow_blank: false
+  validates :tag_ids, presence: true
 
 
 
