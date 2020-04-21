@@ -17,18 +17,31 @@ class LessonsController < ApplicationController
   def new
     @lesson = Lesson.new(course_id: params[:course_id])
     @courses = Course.all.collect { |p| [ p.name, p.id ] }
-    @tags = Tag.all
+    @tags = Tag.all#.collect { |t| [ t.name, t.id ] }
   end
 
   def create
     @lesson = Lesson.new(lesson_params)
-    @courses = Course.all.collect { |p| [ p.name, p.id ] }
-    @tags = Tag.all
 
-    if @lesson.save
+    #gets rid of blanks, set tags
+    params[:lesson][:tag_ids] = params[:lesson][:tag_ids].reject { |t| t.empty? }
+    @lesson.tags = Tag.where(id: params[:lesson][:tag_ids])
+
+    if @lesson.valid?
+
+      @lesson.save
       redirect_to @lesson
-    else
-      render :new
+    elsif params[:lesson][:tag_ids] == []
+      @courses = Course.all.collect { |p| [ p.name, p.id ] }
+      @tags = Tag.all#.collect { |t| [ t.name, t.id ] }
+      render :new#plain: "#{params[:lesson][:tag_ids]}, #{@lesson.tags}"
+    elsif !@lesson.valid?
+      @courses = Course.all.collect { |p| [ p.name, p.id ] }
+      @tags = Tag.all
+
+
+      @lesson.zip_file = params[:lesson][:zip_file] if params[:lesson][:zip_file]
+      @lesson.save ? redirect_to(@lesson ) : render(plain: "#{params[:lesson][:tag_ids]}, #{@lesson.tags}, #{@lesson.errors.full_messages}")
     end
   end
 
@@ -50,23 +63,45 @@ class LessonsController < ApplicationController
   def edit
     @lesson = Lesson.find_by(id: params[:id])
     @courses = Course.all.collect { |p| [ p.name, p.id ] }
-    @tags = Tag.all
+    @tags = Tag.all#.collect { |t| [ t.name, t.id ] }
   end
 
   def update
+    @lesson = Lesson.find_by(id: params[:id])
+    params[:lesson][:tag_ids] = params[:lesson][:tag_ids].reject { |t| t.empty? }
+    @lesson.tags = Tag.where(id: params[:lesson][:tag_ids])
 
-    lesson = Lesson.find_by(id: params[:id])
-    lesson.update(lesson_params)
-    lesson.tags = Tag.where(id: params[:lesson][:tag_ids])
+    if @lesson.valid?
+      @lesson.update(lesson_params)
+      @lesson.save
+      redirect_to @lesson
+    elsif params[:lesson][:tag_ids] = []
+      # workaround for model validation - validation won't recognize when there are no collection_select options selected.
 
-    lesson.save
-    redirect_to lesson
+
+      #@lesson.errors.add(:tag_ids, "must include at least one tag")
+      @courses = Course.all.collect { |p| [ p.name, p.id ] }
+      @tags = Tag.all#.collect { |t| [ t.name, t.id ] }
+      render :edit#plain: "#{params[:lesson][:tag_ids]}, #{@lesson.tags}"
+    elsif !@lesson.valid?
+      @courses = Course.all.collect { |p| [ p.name, p.id ] }
+      @tags = Tag.all
+
+      @lesson.zip_file = params[:lesson][:zip_file] if params[:lesson][:zip_file]
+      @lesson.save ? redirect_to(@lesson ) : render(:edit)
+    end
   end
 
   def destroy
     lesson = Lesson.find_by(id: params[:id])
     lesson.destroy
     redirect_to lessons_path
+  end
+
+  def destroy_zip_file
+    @lesson = Lesson.find_by(id: params[:lesson_id])
+    @lesson.zip_file.purge if @lesson.zip_file
+    redirect_to @lesson
   end
 
   def drafts
