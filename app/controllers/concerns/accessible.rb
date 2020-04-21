@@ -32,6 +32,25 @@ module Accessible
     (admin? || teacher? || student?) ? true : false
   end
 
+  def visitor_is_owner?
+    uri_val = request.original_fullpath.split('/')
+    if teacher?
+
+      #uri points to specific course; teacher assigned to/owns course
+      if ((uri_val[1] == 'courses' && current_teacher.courses.find{|course| course.id == uri_val[2].to_i}.present?) || (uri_val[3] == 'courses' && current_teacher.courses.find{|course| course.id == uri_val[4].to_i}.present?))
+        return true
+
+      #uri points to specific lesson; teacher assigned to/owns lesson
+    elsif ((uri_val[1] == 'lessons' && current_teacher.courses.find{|course| course.lessons.include?(Lesson.find_by(id: uri_val[2].to_i))}.present?) || (uri_val[3] == 'lessons' && current_teacher.courses.find{|course| course.lessons.include?(Lesson.find_by(id: uri_val[4].to_i))}.present?))
+        return true
+      else
+        return false
+      end
+    else
+      return false
+    end
+  end
+
   def visitor_is_self?
     uri_val = request.original_fullpath.split('/')
 
@@ -82,6 +101,12 @@ module Accessible
 
   def authorize_user
     unless signed_in?
+      direct_unauthorized
+    end
+  end
+
+  def authorize_owner_or_admin
+    unless visitor_is_owner? || admin?
       direct_unauthorized
     end
   end
